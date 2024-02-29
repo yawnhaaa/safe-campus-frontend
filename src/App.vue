@@ -1,9 +1,15 @@
-<script setup lang="ts">
+<script lang="ts">
+import { defineComponent } from 'vue';
 import MainLayout from './components/MainLayout.vue';
+
+export default defineComponent({
+  components: {
+    MainLayout
+  }
+})
 </script>
 
 <template>
-  <h1>Hello</h1>
   <MainLayout />
 </template>
 
