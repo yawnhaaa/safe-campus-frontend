@@ -2,6 +2,7 @@
 import { defineComponent, ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import { useDark } from '@vueuse/core'
+import { Search } from '@element-plus/icons-vue'
 
 export default defineComponent({
   components: {
@@ -11,10 +12,13 @@ export default defineComponent({
   setup() {
     const value1 = ref<boolean>(false);
     const isDark = useDark();
+    const search = ref('')
 
     return {
       value1,
-      isDark
+      isDark,
+      search,
+      Search
     }
   }
 })
@@ -34,6 +38,16 @@ export default defineComponent({
       <RouterLink to="/visual">可视化</RouterLink>
       <RouterLink to="/issue">发布</RouterLink>
     </nav>
+    <el-input
+        v-model="search"
+        style="max-width: 200px; margin-right: 20px;"
+        placeholder="探索大学反诈"
+        class="input-search"
+        >
+        <template #append>
+          <el-button :icon="Search" />
+        </template>
+    </el-input>
     <el-switch
         inline-prompt
         active-text="黑夜"
