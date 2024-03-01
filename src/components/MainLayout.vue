@@ -12,14 +12,18 @@ export default defineComponent({
 
 <template>
   <header>
+    <div class="title">
+      <img style="margin-right:10px;" src="../../public/small_logo.png" />
+      <span>大学反诈</span>
+    </div>
     <nav>
       <RouterLink to="/">首页</RouterLink>
       <RouterLink to="/material">素材</RouterLink>
       <RouterLink to="/learn">学习</RouterLink>
       <RouterLink to="/visual">可视化</RouterLink>
       <RouterLink to="/issue">发布</RouterLink>
-      <RouterLink to="/my">个人信息</RouterLink>
     </nav>
+      <RouterLink to="/my" class="profile-link">个人信息</RouterLink>
   </header>
   <main>
     <RouterView />
@@ -36,3 +40,34 @@ export default defineComponent({
     </div>
   </footer>
 </template>
+
+<style lang="scss" scoped>
+header{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+  }
+
+  nav a {
+    margin-right: 20px;
+    text-decoration: none;
+    color: black;
+  }
+
+  nav a:hover {
+    color: green;
+  }
+
+  .profile-link {
+    text-decoration: inherit;
+    color: inherit;
+    margin-left: 30px;
+  }
+}
+</style>
