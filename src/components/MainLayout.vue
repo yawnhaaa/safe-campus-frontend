@@ -1,16 +1,27 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
+import { useDark } from '@vueuse/core'
 
 export default defineComponent({
   components: {
     RouterLink,
     RouterView
+  },
+  setup() {
+    const value1 = ref<boolean>(false);
+    const isDark = useDark();
+
+    return {
+      value1,
+      isDark
+    }
   }
 })
 </script>
 
 <template>
+  <div class="contain">
   <header>
     <div class="title">
       <img style="margin-right:10px;" src="../../public/small_logo.png" />
@@ -23,51 +34,87 @@ export default defineComponent({
       <RouterLink to="/visual">可视化</RouterLink>
       <RouterLink to="/issue">发布</RouterLink>
     </nav>
+    <el-switch
+        inline-prompt
+        active-text="黑夜"
+        inactive-text="白天"
+        v-model="isDark"
+        style="display: inline-flex;"
+        />
       <RouterLink to="/my" class="profile-link">个人信息</RouterLink>
   </header>
   <main>
     <RouterView />
   </main>
   <footer>
-    <div class="friend-link">
-      <div>友情链接</div>
-    </div>
-    <div class="copyright">
-      <p>举报邮箱：shuaige@xxx.xx 座机电话：0571-xxxxxxxx</p>
-      <p>&copy; 大学反诈中心. All Rights Reserved</p>
-      <p>浙ICP证：2024号xxxxxx号-1</p>
-      <p>浙公网安备110xxxxxxxxxxx号</p>
-    </div>
-  </footer>
+  <div class="copyright">
+    <span style="margin-right:10px;"><a href="mailto:shuaige@xxx.xx">举报邮箱：shuaige@xxx.xx</a></span>
+    <span><a href="tel:0571-xxxxxxxx">座机电话：0571-xxxxxxxx</a></span>
+    <p>Copyright &copy; 大学反诈中心. By 最帅的人. All Rights Reserved</p>
+    <span style="margin-right:10px;"><a href="https://beian.miit.gov.cn/">浙ICP证：2024号xxxxxx号-1 </a></span>
+    <span><a href="http://www.beian.gov.cn/">浙公网安备110xxxxxxxxxxx号</a></span>
+  </div>
+</footer>
+</div>
 </template>
 
 <style lang="scss" scoped>
+.contain {
+display: flex;
+flex-direction: column;
+min-height: 100vh;
+}
 header{
+display: flex;
+align-items: center;
+justify-content: center;
+height: 60px;
+border-bottom: 1px solid gray;
+
+.title {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-right: 20px;
+}
 
-  .title {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 20px;
-  }
+nav {
+  margin-right: 30px;
+}
 
-  nav a {
-    margin-right: 20px;
+nav a {
+  margin-right: 20px;
+  text-decoration: none;
+  color: inherit;
+}
+
+nav a:hover {
+  color: green;
+}
+
+.profile-link {
+  text-decoration: inherit;
+  color: inherit;
+  margin-left: 10px;
+}
+}
+
+main {
+margin: auto;
+flex-grow: 1;
+height: 2000px;
+width: 60vw;
+}
+
+footer {
+  border-top: 1px solid gray;
+  padding: 20px 0;
+  margin-top: auto;
+  text-align: center;
+
+  a {
     text-decoration: none;
-    color: black;
-  }
-
-  nav a:hover {
-    color: green;
-  }
-
-  .profile-link {
-    text-decoration: inherit;
     color: inherit;
-    margin-left: 30px;
   }
 }
 </style>
