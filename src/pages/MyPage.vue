@@ -1,17 +1,23 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import MenuItem from '../components/MenuItem.vue';
 
 export default defineComponent({
   name: 'MyPage',
+  components: {
+    MenuItem,
+  },
   setup() {
-    const activeIndex = ref('1');
-    const handleSelect = (index: string) => {
-      activeIndex.value = index;
-    };
+    const itemIndex = ref('0');
+    const menuItemList = ref(['个人信息', '个性化定制'])
+    const handleIndex = (index: string) => {
+      itemIndex.value = index;
+    }
 
     return {
-      activeIndex,
-      handleSelect
+      itemIndex,
+      menuItemList,
+      handleIndex,
     }
   }
 })
@@ -19,16 +25,8 @@ export default defineComponent({
 
 <template>
   <div class="main-contain">
-  <el-menu
-      :default-active="activeIndex"
-      class="menu-item"
-      mode="horizontal"
-      @select="handleSelect"
-      >
-      <el-menu-item index="1">个人信息</el-menu-item>
-      <el-menu-item index="2">个性化定制</el-menu-item>
-  </el-menu>
-  <h1 v-if="activeIndex == 1">My Page</h1>
+  <menu-item :menuItemList="menuItemList" @item-selected="handleIndex" />
+  <h1 v-if="itemIndex == 0">My Page</h1>
   <h1 v-else>individual</h1>
   </div>
 </template>
