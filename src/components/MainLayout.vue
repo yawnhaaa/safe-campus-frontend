@@ -14,12 +14,16 @@ export default defineComponent({
     const value1 = ref<boolean>(false);
     const isDark = useDark();
     const search = ref('')
+    const lightLogoSrc = "../../public/lightLogoSrc.png"
+    const darkLogoSrc = "../../public/darkLogoSrc.png"
 
     return {
       value1,
       isDark,
       search,
-      Search
+      Search,
+      lightLogoSrc,
+      darkLogoSrc,
     }
   }
 })
@@ -29,7 +33,7 @@ export default defineComponent({
   <div class="contain">
   <header>
     <div class="title">
-      <img style="margin-right:10px;" src="../../public/small_logo.png" />
+      <img style="margin-right:10px;" :src="isDark ? darkLogoSrc : lightLogoSrc" />
       <span>大学反诈</span>
     </div>
     <nav>
@@ -59,7 +63,9 @@ export default defineComponent({
       <RouterLink to="/my" class="profile-link">个人信息</RouterLink>
   </header>
   <main>
+    <div class="main-contain">
     <RouterView />
+    </div>
   </main>
   <footer>
   <div class="copyright">
@@ -115,9 +121,14 @@ nav a:hover {
 }
 
 main {
-margin: auto;
-flex-grow: 1;
-width: 60vw;
+  width: 100%;
+  height: 100%;
+
+  .main-contain {
+    margin: 10px auto;
+    flex-grow: 1;
+    width: 60vw;
+}
 }
 
 footer {
