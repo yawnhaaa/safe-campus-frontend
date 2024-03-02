@@ -5,6 +5,7 @@ import { useDark } from '@vueuse/core'
 import { Search } from '@element-plus/icons-vue'
 
 export default defineComponent({
+  name: "MainLayout",
   components: {
     RouterLink,
     RouterView
@@ -116,7 +117,6 @@ nav a:hover {
 main {
 margin: auto;
 flex-grow: 1;
-height: 2000px;
 width: 60vw;
 }
 
