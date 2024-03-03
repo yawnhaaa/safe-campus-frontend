@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue';
 import MenuItem from '../components/MenuItem.vue';
+import type { FormInstance, FormRules } from 'element-plus';
 
 export default defineComponent({
   name: 'MyPage',
@@ -22,6 +23,7 @@ export default defineComponent({
       college: string;
       stunum: string;
     }
+    const formRef = ref<FormInstance>()
     const form = reactive<FormType>({
       name: '',
       email: '',
@@ -31,8 +33,22 @@ export default defineComponent({
       college: '',
       stunum: '',
     })
-    const onSave = () => {
-      console.log(form, "form")
+    const rules = reactive<FormRules<FormType>>({
+      name: [
+        { required: true, message: '请输入昵称', trigger: 'blur' },
+        { min: 2, max: 8, message: '长度在2-10之间', trigger: 'blur' },
+      ],
+      email: [ { required: true, message: '邮箱不可更改！', trigger: 'blur' } ],
+    })
+    const onSave = async (formEl: FormInstance | undefined) => {
+      if (!formEl) return
+      await formEl.validate((valid, fields) => {
+        if (valid) {
+          console.log(form, "submit!")
+        } else {
+          console.log(fields, "error submit!")
+        }
+      })
     }
 
     return {
@@ -41,6 +57,8 @@ export default defineComponent({
       handleIndex,
       form,
       onSave,
+      rules,
+      formRef,
     }
   }
 })
@@ -51,37 +69,39 @@ export default defineComponent({
   <menu-item :menuItemList="menuItemList" @item-selected="handleIndex" />
   <template v-if="itemIndex == 0">
     <el-form 
+      ref="formRef"
       :model="form" 
       label-width="auto" 
+      :rules="rules"
       class="profile-form"
       >
-      <el-form-item label="昵称">
+      <el-form-item label="昵称" prop="name">
         <el-input v-model="form.name" class="profile-input" />
       </el-form-item>
-      <el-form-item label="邮箱">
+      <el-form-item label="邮箱" prop="email">
         <el-input v-model="form.email" class="profile-input" />
       </el-form-item>
-      <el-form-item label="个人介绍">
+      <el-form-item label="个人介绍" prop="intro">
         <el-input v-model="form.intro" class="profile-input" />
       </el-form-item>
-      <el-form-item label="性别">
+      <el-form-item label="性别" prop="gender">
         <el-radio-group v-model="form.gender">
           <el-radio-button label="女" value="0" />
           <el-radio-button label="男" value="1" />
           <el-radio-button label="保密" value="2" />
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="学校">
+      <el-form-item label="学校" prop="school">
         <el-input v-model="form.school" class="profile-input" />
       </el-form-item>
-      <el-form-item label="学院">
+      <el-form-item label="学院" prop="college">
         <el-input v-model="form.college" class="profile-input" />
       </el-form-item>
-      <el-form-item label="学号">
+      <el-form-item label="学号" prop="stunum">
         <el-input v-model="form.stunum" class="profile-input" />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSave" class="save-button">保存</el-button>
+        <el-button type="primary" @click="onSave(formRef)" class="save-button">保存</el-button>
       </el-form-item>
     </el-form>
   </template>
