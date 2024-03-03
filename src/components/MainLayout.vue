@@ -1,8 +1,9 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, onMounted, ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import { useDark } from '@vueuse/core'
 import { Search } from '@element-plus/icons-vue'
+import { useElementPlusTheme } from 'use-element-plus-theme'
 
 export default defineComponent({
   name: "MainLayout",
@@ -11,19 +12,26 @@ export default defineComponent({
     RouterView
   },
   setup() {
-    const value1 = ref<boolean>(false);
     const isDark = useDark();
     const search = ref('')
     const lightLogoSrc = "../../public/lightLogoSrc.png"
     const darkLogoSrc = "../../public/darkLogoSrc.png"
+    const { changeTheme } = useElementPlusTheme(localStorage.getItem('selectedTheme'))
+
+    onMounted(() => {
+      const selectedTheme = localStorage.getItem('selectedTheme') || '';
+      document.documentElement.style.setProperty('--custom-font', selectedTheme);
+      document.documentElement.style.setProperty('--color-a-hover', selectedTheme);
+    });
+
 
     return {
-      value1,
       isDark,
       search,
       Search,
       lightLogoSrc,
       darkLogoSrc,
+      changeTheme,
     }
   }
 })
@@ -110,7 +118,7 @@ nav a {
 }
 
 nav a:hover {
-  color: var(--color-primary-active);
+  color: var(--color-a-hover);
 }
 
 .profile-link {

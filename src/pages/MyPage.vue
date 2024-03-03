@@ -1,7 +1,8 @@
 <script lang="ts">
-import { defineComponent, ref, reactive, onMounted } from 'vue';
+import { defineComponent, ref, reactive, onMounted, watch } from 'vue';
 import MenuItem from '../components/MenuItem.vue';
 import type { FormInstance, FormRules } from 'element-plus';
+import { useElementPlusTheme } from 'use-element-plus-theme'
 
 export default defineComponent({
   name: 'MyPage',
@@ -53,18 +54,25 @@ export default defineComponent({
     // 字体表单
     type IndividFormType = {
       font: string;
+      theme: string;
     }
     const individForm = reactive<IndividFormType>({
       font: '',
+      theme: '',
     })
     const fontList = ref(['系统默认字体', 'LiuJianMaoCao', 'LongCang', 'MaShanZheng', 'NotoSans', 'NotoSerif', 'ZCOOLQing', 'ZCOOLXiao', 'ZhiMangXing']);
     const setFontFamily = () => {
       localStorage.setItem('selectedFont', individForm.font)
       document.documentElement.style.setProperty('--custom-font', individForm.font)
     }
+    // 主题颜色
+    const setTheme = useElementPlusTheme(individForm.theme || localStorage.getItem('selectedTheme')).changeTheme;
+    watch(() => individForm.theme, (newValue, _) => {
+      localStorage.setItem('selectedTheme', newValue)
+      document.documentElement.style.setProperty('--color-a-hover', newValue);
+    })
+
     onMounted(() => {
-      individForm.font = localStorage.getItem('selectedFont') || '';
-      setFontFamily();
     })
 
     return {
@@ -78,6 +86,7 @@ export default defineComponent({
       individForm,
       fontList,
       setFontFamily,
+      setTheme,
     }
   }
 })
@@ -142,6 +151,9 @@ export default defineComponent({
             :value="font"
             />
         </el-select>
+      </el-form-item>
+      <el-form-item label="选择主题" prop="theme">
+        <el-color-picker v-model="individForm.theme" @change="setTheme" />
       </el-form-item>
     </el-form>
 
