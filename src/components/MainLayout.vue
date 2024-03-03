@@ -41,8 +41,10 @@ export default defineComponent({
   <div class="contain">
   <header>
     <div class="title">
+      <RouterLink to="/">
       <img style="margin-right:10px;" :src="isDark ? darkLogoSrc : lightLogoSrc" />
       <span>大学反诈</span>
+      </RouterLink>
     </div>
     <nav>
       <RouterLink to="/">首页</RouterLink>
@@ -101,10 +103,15 @@ height: 60px;
 border-bottom: 1px solid gray;
 
 .title {
+  
+  a {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-right: 20px;
+  text-decoration: none;
+  color: inherit;
+  }
 }
 
 nav {
