@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import MainLayout from './components/MainLayout.vue';
+import '@/styles/global.scss';
 
 export default defineComponent({
   components: {
@@ -13,10 +14,5 @@ export default defineComponent({
   <MainLayout />
 </template>
 
-<style>
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
+<style lang="scss" scoped>
 </style>

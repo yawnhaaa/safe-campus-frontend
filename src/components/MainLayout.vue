@@ -110,7 +110,7 @@ nav a {
 }
 
 nav a:hover {
-  color: green;
+  color: var(--color-primary-active);
 }
 
 .profile-link {

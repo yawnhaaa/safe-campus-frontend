@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue';
+import { defineComponent, ref, reactive, onMounted } from 'vue';
 import MenuItem from '../components/MenuItem.vue';
 import type { FormInstance, FormRules } from 'element-plus';
 
@@ -50,6 +50,22 @@ export default defineComponent({
         }
       })
     }
+    // 字体表单
+    type IndividFormType = {
+      font: string;
+    }
+    const individForm = reactive<IndividFormType>({
+      font: '',
+    })
+    const fontList = ref(['系统默认字体', 'LiuJianMaoCao', 'LongCang', 'MaShanZheng', 'NotoSans', 'NotoSerif', 'ZCOOLQing', 'ZCOOLXiao', 'ZhiMangXing']);
+    const setFontFamily = () => {
+      localStorage.setItem('selectedFont', individForm.font)
+      document.documentElement.style.setProperty('--custom-font', individForm.font)
+    }
+    onMounted(() => {
+      individForm.font = localStorage.getItem('selectedFont') || '';
+      setFontFamily();
+    })
 
     return {
       itemIndex,
@@ -59,6 +75,9 @@ export default defineComponent({
       onSave,
       rules,
       formRef,
+      individForm,
+      fontList,
+      setFontFamily,
     }
   }
 })
@@ -105,7 +124,28 @@ export default defineComponent({
       </el-form-item>
     </el-form>
   </template>
-  <template v-else>individual</template>
+  <template v-else>
+    <el-form
+      :model="individForm"
+      class="profile-form"
+      >
+      <el-form-item label="选择字体" prop="font">
+        <el-select
+          v-model="individForm.font"
+          placeholder="选择系统字体"
+          @change="setFontFamily"
+          >
+          <el-option
+            v-for="font in fontList"
+            :key="font"
+            :label="font"
+            :value="font"
+            />
+        </el-select>
+      </el-form-item>
+    </el-form>
+
+  </template>
   </div>
 </template>
 
