@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, onMounted, watch } from 'vue';
 import MenuItem from '../components/MenuItem.vue';
-import type { FormInstance, FormRules } from 'element-plus';
+import { FormInstance, FormRules, ElMessageBox } from 'element-plus';
 import { useElementPlusTheme } from 'use-element-plus-theme'
 import '../styles/page.scss'
 
@@ -38,17 +38,29 @@ export default defineComponent({
     const rules = reactive<FormRules<FormType>>({
       name: [
         { required: true, message: '请输入昵称', trigger: 'blur' },
-        { min: 2, max: 8, message: '长度在2-10之间', trigger: 'blur' },
+        { min: 2, max: 8, message: '长度在2-8之间', trigger: 'blur' },
       ],
-      email: [ { required: true, message: '邮箱不可更改！', trigger: 'blur' } ],
+      email: [ { required: true, message: '邮箱不可更改', trigger: 'blur' } ],
     })
     const onSave = async (formEl: FormInstance | undefined) => {
       if (!formEl) return
       await formEl.validate((valid, fields) => {
-        if (valid) {
-          console.log(form, "submit!")
-        } else {
-          console.log(fields, "error submit!")
+        if (!valid) {
+          let errorMessage = '';
+          // 遍历 fields 对象的属性
+          for (const fieldName in fields) {
+            if (fields.hasOwnProperty(fieldName)) {
+            const fieldMessages = fields[fieldName];
+            // 遍历属性值中的消息对象
+           fieldMessages.forEach(messageObj => {
+             errorMessage += messageObj.message + '; ';
+            });
+           }
+           }
+
+          ElMessageBox.alert(errorMessage, '注意', {
+            confirmButtonText: '好的',
+          })
         }
       })
     }
@@ -102,16 +114,16 @@ export default defineComponent({
       :model="form" 
       label-width="auto" 
       :rules="rules"
-      class="profile-form"
+      class="form"
       >
       <el-form-item label="昵称" prop="name">
-        <el-input v-model="form.name" class="profile-input" />
+        <el-input v-model="form.name" class="input" />
       </el-form-item>
       <el-form-item label="邮箱" prop="email">
-        <el-input v-model="form.email" class="profile-input" />
+        <el-input v-model="form.email" class="input" />
       </el-form-item>
       <el-form-item label="个人介绍" prop="intro">
-        <el-input v-model="form.intro" class="profile-input" />
+        <el-input v-model="form.intro" class="input" />
       </el-form-item>
       <el-form-item label="性别" prop="gender">
         <el-radio-group v-model="form.gender">
@@ -121,16 +133,16 @@ export default defineComponent({
         </el-radio-group>
       </el-form-item>
       <el-form-item label="学校" prop="school">
-        <el-input v-model="form.school" class="profile-input" />
+        <el-input v-model="form.school" class="input" />
       </el-form-item>
       <el-form-item label="学院" prop="college">
-        <el-input v-model="form.college" class="profile-input" />
+        <el-input v-model="form.college" class="input" />
       </el-form-item>
       <el-form-item label="学号" prop="stunum">
-        <el-input v-model="form.stunum" class="profile-input" />
+        <el-input v-model="form.stunum" class="input" />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSave(formRef)" class="save-button">保存</el-button>
+        <el-button type="primary" @click="onSave(formRef)" class="button">保存</el-button>
       </el-form-item>
     </el-form>
   </template>
@@ -163,18 +175,4 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-.profile-form {
-  margin: 20px 10px;
-
-  .profile-input {
-    position: relative;
-  }
-
-  .save-button {
-    position: absolute;
-    margin-top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-}
 </style>
