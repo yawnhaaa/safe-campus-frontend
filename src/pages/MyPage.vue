@@ -3,6 +3,7 @@ import { defineComponent, ref, reactive, onMounted, watch } from 'vue';
 import MenuItem from '../components/MenuItem.vue';
 import type { FormInstance, FormRules } from 'element-plus';
 import { useElementPlusTheme } from 'use-element-plus-theme'
+import '../styles/page.scss'
 
 export default defineComponent({
   name: 'MyPage',
@@ -162,13 +163,6 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-.page-contain {
-  padding: 5px;
-  border-radius: 5px;
-  height: 100%;
-  border: 1px solid gray;
-}
-
 .profile-form {
   margin: 20px 10px;
 

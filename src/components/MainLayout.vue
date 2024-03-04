@@ -71,6 +71,7 @@ export default defineComponent({
         style="display: inline-flex;"
         />
       <RouterLink to="/my" class="profile-link">个人信息</RouterLink>
+      <RouterLink to="/login" class="profile-link">登录/注册</RouterLink>
   </header>
   <main>
     <div class="main-contain">
