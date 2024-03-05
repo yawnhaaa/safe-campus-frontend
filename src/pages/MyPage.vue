@@ -3,7 +3,6 @@ import { defineComponent, ref, reactive, onMounted, watch } from 'vue';
 import MenuItem from '../components/MenuItem.vue';
 import { FormInstance, FormRules, ElMessageBox } from 'element-plus';
 import { useElementPlusTheme } from 'use-element-plus-theme'
-import '../styles/page.scss'
 
 export default defineComponent({
   name: 'MyPage',
@@ -149,7 +148,7 @@ export default defineComponent({
   <template v-else>
     <el-form
       :model="individForm"
-      class="profile-form"
+      class="form"
       >
       <el-form-item label="选择字体" prop="font">
         <el-select

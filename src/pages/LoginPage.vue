@@ -1,7 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue';
 import { ElMessageBox, FormInstance, FormRules } from 'element-plus';
-import '../styles/page.scss'
 import MenuItem from '../components/MenuItem.vue'
 
 export default defineComponent({

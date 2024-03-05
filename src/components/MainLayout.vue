@@ -4,6 +4,7 @@ import { RouterLink, RouterView } from 'vue-router'
 import { useDark } from '@vueuse/core'
 import { Search } from '@element-plus/icons-vue'
 import { useElementPlusTheme } from 'use-element-plus-theme'
+import '../styles/page.scss'
 
 export default defineComponent({
   name: "MainLayout",
