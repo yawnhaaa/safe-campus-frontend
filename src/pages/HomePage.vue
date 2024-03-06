@@ -1,63 +1,46 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
+import InfoItem from '../components/InfoItem.vue'
+import '../styles/page.scss'
+import { InfoType } from '../types/type'
 
 export default defineComponent({
-  name: 'HomePage'
+  name: 'HomePage',
+  components: {
+    InfoItem,
+  },
+
+  setup (){
+    const infoArray: InfoType[] = [
+      {
+        id: '1',
+        title: '标题1',
+        content: '内容1',
+        author: '作者1',
+        like: '点赞：100',
+      },
+      {
+        id: '2',
+        title: '标题2',
+        content: '内容2',
+        author: '作者2',
+        like: '点赞：200',
+        img: '../../public/logo.png',
+      },
+    ]
+
+    return {
+      infoArray,
+    }
+  }
 })
 </script>
 
 <template>
   <div class="page-contain">
-    <div class="info-contain">
-      <div class="info-text">
-        <div class="text-title">这里是资讯标题</div>
-        <div class="text-content">这这里是文章内容的简略展示这里是文章内容的简略展示这里是文章内容的简略展示这里是文章内容的简略展示这里是文章内容的简略展示这里是文章内容的简略展示里是文章内容的简略展示</div>
-        <span class="text-author">作者阿豪</span>
-        <span class="text-like">点赞：467</span>
-      </div>
-      <div class="info-img">
-        <img v-if="true" src="../../public/logo.png" style="width: 108px; height: 72px;"/>
-      </div>
-    </div>
+    <info-item :infoArray="infoArray" />
   </div>
 </template>
 
 <style lang="scss" scoped>
-.info-contain {
-  margin: 10px;
-  border-bottom: 1px solid gray;
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  border: 1px solid white;
-
-  .info-text {
-    flex: 1;
-    width: 300px;
-
-    .text-title {
-      font-weight: bold;
-      font-size: 18px;
-    }
-
-    .text-content {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin: 10px 0;
-      font-size: 14px;
-    }
-
-    .text-author {
-      margin-right: 10px;
-      padding-right: 10px;
-      border-right: 1px solid gray;
-    }
-  }
-
-  .info-img {
-    align-self: center;
-    margin-left: auto;
-  }
-}
 </style>
