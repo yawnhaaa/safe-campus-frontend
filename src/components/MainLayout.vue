@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, onMounted, onUnmounted, ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import { useDark } from '@vueuse/core'
 import { Search } from '@element-plus/icons-vue'
@@ -25,6 +25,9 @@ export default defineComponent({
             document.documentElement.style.setProperty('--color-a-hover', selectedTheme);
         });
 
+
+        onUnmounted(() => {
+        })
 
         return {
             isDark,
@@ -99,64 +102,60 @@ export default defineComponent({
 }
 header{
     display: flex;
-align-items: center;
-justify-content: center;
-height: 60px;
-border-bottom: 1px solid gray;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    border-bottom: 1px solid gray;
 
-.title {
-  
-  a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 20px;
-  text-decoration: none;
-  color: inherit;
-  }
-}
+    .title {
 
-nav {
-  margin-right: 30px;
-}
+        a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            text-decoration: none;
+            color: inherit;
+        }
+    }
 
-nav a {
-  margin-right: 20px;
-  text-decoration: none;
-  color: inherit;
-}
+    nav {
+        margin-right: 30px;
+    }
 
-nav a:hover {
-  color: var(--color-a-hover);
-}
+    nav a {
+        margin-right: 20px;
+        text-decoration: none;
+        color: inherit;
+    }
 
-.profile-link {
-  text-decoration: inherit;
-  color: inherit;
-  margin-left: 10px;
-}
+    nav a:hover {
+        color: var(--color-a-hover);
+    }
+
+    .profile-link {
+        text-decoration: inherit;
+        color: inherit;
+        margin-left: 10px;
+    }
 }
 
 main {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
+    position: relative;
 
-  .main-contain {
-    margin: 10px auto;
-    flex-grow: 1;
-    width: 60vw;
-}
 }
 
 footer {
-  border-top: 1px solid gray;
-  padding: 20px 0;
-  margin-top: auto;
-  text-align: center;
+    border-top: 1px solid gray;
+    padding: 20px 0;
+    margin-top: auto;
+    text-align: center;
 
-  a {
-    text-decoration: none;
-    color: inherit;
-  }
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
 }
 </style>
