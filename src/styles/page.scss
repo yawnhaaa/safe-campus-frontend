@@ -1,22 +1,22 @@
 .page-contain {
-  padding: 5px;
-  border-radius: 5px;
-  height: 100%;
-  border: 1px solid gray;
+    padding: 5px;
+    border-radius: 5px;
+    height: 100%;
+    border: 1px solid gray;
 
-  .form {
-    margin: 20px 10px;
-    margin-bottom: 30px;
+    .form {
+        margin: 20px 10px;
+        margin-bottom: 30px;
 
-    .input {
-      position: relative;
+        .input {
+            position: relative;
+        }
+
+        .button {
+            position: absolute;
+            margin-top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
     }
-
-    .button {
-      position: absolute;
-      margin-top: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-  }
 }

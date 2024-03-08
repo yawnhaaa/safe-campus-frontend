@@ -4,14 +4,14 @@ import MainLayout from './components/MainLayout.vue';
 import '@/styles/global.scss';
 
 export default defineComponent({
-  components: {
-    MainLayout
-  }
+    components: {
+        MainLayout
+    }
 })
 </script>
 
 <template>
-  <MainLayout />
+    <MainLayout />
 </template>
 
 <style lang="scss" scoped>

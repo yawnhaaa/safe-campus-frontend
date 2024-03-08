@@ -2,10 +2,10 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'MaterialPage'
+    name: 'MaterialPage'
 })
 </script>
 
 <template>
-  <h1>Material Page</h1>
+    <h1>Material Page</h1>
 </template>

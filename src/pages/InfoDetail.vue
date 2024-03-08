@@ -3,13 +3,13 @@ import { defineComponent } from 'vue'
 import '@/styles/page.scss'
 
 export default defineComponent({
-  name: 'InfoDetail',
+    name: 'InfoDetail',
 
 })
 </script>
 
 <template>
-  <div class="page-contain">
-    <h1>我的第一个动态路由！！！</h1>
-  </div>
+    <div class="page-contain">
+        <h1>我的第一个动态路由！！！</h1>
+    </div>
 </template>
