@@ -43,7 +43,22 @@ const router = createRouter({
       path: '/info/:id',
       name: 'infoDetail',
       component: () => import('@/pages/InfoDetail.vue')
-    }
+    },
+    {
+      path: '/materia/image/:id',
+      name: 'imageMateria',
+      component: () => import('@/pages/ImagePage.vue')
+    },
+    {
+      path: '/materia/video/:id',
+      name: 'videoMateria',
+      component: () => import('@/pages/VideoPage.vue')
+    },
+    {
+      path: '/materia/audio/:id',
+      name: 'audioMateria',
+      component: () => import('@/pages/AudioPage.vue')
+    },
   ]
 })
 

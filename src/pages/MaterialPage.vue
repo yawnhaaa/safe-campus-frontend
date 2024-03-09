@@ -69,7 +69,7 @@ export default defineComponent({
                 type: '1',
             },
             {
-                id: '2',
+                id: '3',
                 src: 'src/assets/images/fanzha.jpg',
                 title: '视频3',
                 author: '阿豪视频',
@@ -103,7 +103,7 @@ export default defineComponent({
                 type: '2',
             },
             {
-                id: '2',
+                id: '3',
                 src: 'src/assets/images/fanzha.jpg',
                 title: '音频3',
                 author: '阿豪音频',
@@ -111,7 +111,7 @@ export default defineComponent({
                 type: '2',
             },
             {
-                id: '2',
+                id: '4',
                 src: 'src/assets/images/fanzha.jpg',
                 title: '音频4',
                 author: '阿豪音频',

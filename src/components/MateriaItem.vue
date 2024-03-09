@@ -1,5 +1,7 @@
 <script lang="ts">
-import { defineComponent, onMounted, PropType } from 'vue'
+import { defineComponent, PropType } from 'vue'
+import { useRouter } from 'vue-router'
+
 
 type ItemType = {
     id: string;
@@ -19,13 +21,27 @@ export default defineComponent({
         }
     },
     setup(_) {
+        const router = useRouter()
+        const handleItem = (item: ItemType) => {
+            if(item.type == '0') {
+                router.push({ name: 'imageMateria', params: { id: item.id } })
+            } else if(item.type == '1') {
+                router.push({ name: 'videoMateria', params: { id: item.id } })
+            } else {
+                router.push({ name: 'audioMateria', params: { id: item.id } })
+            }
+        }
+
+        return {
+            handleItem,
+        }
     }
 
 })
 </script>
 
 <template>
-    <div class="materia-item" v-for="item in itemList" :key="item.id" >
+    <div class="materia-item" v-for="item in itemList" :key="item.id" @click="handleItem(item)" >
         <img :src="item.src" class="materia-image" />
         <div class="materia-info">
             <div class="materia-title">{{ item.title }}</div>
