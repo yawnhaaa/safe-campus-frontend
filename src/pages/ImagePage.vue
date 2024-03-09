@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import '../styles/page.scss'
+import '../styles/materia.scss'
 import LeftItem from '../components/LeftItem.vue'
 import CommentItem from '../components/CommentItem.vue'
 
@@ -41,22 +42,11 @@ export default defineComponent({
                 <span class="materia-author">{{ materia.author }}</span>
                 <span class="materia-date">{{ materia.date }}</span>
             </div>
-            <h1>主要内容</h1>
+            <h1>图像组件</h1>
         </div>
         <comment-item />
     </div>
 </template>
 
 <style lang="scss" scoped>
-
-.materia-header {
-    display: flex;
-    align-items: center;
-
-
-    .materia-button {
-        margin-left: 30px;
-    }
-}
-
 </style>

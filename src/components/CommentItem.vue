@@ -37,7 +37,8 @@ export default defineComponent({
 <style lang="scss" scoped>
 .comment-contain {
     height: 100%;
-    margin-top: 50px;
+    margin-top: 10px;
+    border-top: 1px solid gray;
     display: flex;
     flex-direction: column;
 

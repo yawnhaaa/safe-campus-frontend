@@ -1,0 +1,21 @@
+.materia-contain {
+    margin: 0 20px;
+
+    .materia-header {
+        display: flex;
+        align-items: center;
+
+        .materia-button {
+            margin-left: 30px;
+        }
+
+    }
+    .materia-main {
+        font-size: 14px;
+        color: gray;
+
+        span {
+            padding-right: 30px;
+        }
+    }
+}

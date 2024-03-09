@@ -67,7 +67,7 @@ export default defineComponent({
 
     .info-header {
         font-size: 14px;
-        color: gary;
+        color: gray;
 
         span {
             padding-right: 30px;
