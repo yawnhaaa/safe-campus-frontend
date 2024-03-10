@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '@/pages/HomePage.vue';
+import AdminPage from '@/admin-pages/AdminPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -58,6 +59,16 @@ const router = createRouter({
       path: '/materia/audio/:id',
       name: 'audioMateria',
       component: () => import('@/pages/AudioPage.vue')
+    },
+    {
+      path: '/admin/hello',
+      name: 'adminHello',
+      component: () => import('@/admin-pages/HelloPage.vue')
+    },
+    {
+      path: '/admin/',
+      name: 'admin',
+      component: AdminPage
     },
   ]
 })
