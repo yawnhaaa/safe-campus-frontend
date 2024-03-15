@@ -12,5 +12,4 @@ const removeToken = (): void => {
     localStorage.removeItem(TOKEN_KEY);
 }
 
-
 export { setToken, getToken, removeToken }
