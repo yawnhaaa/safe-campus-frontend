@@ -85,11 +85,26 @@ export default defineComponent({
             ]
         })
         const handleSend = () => {
+            if(!registerForm.email){
+                ElMessageBox.alert("请输入邮箱", "注意", {
+                    confirmButtonText: "现在就去输"
+                })
+            }
             const requestBody = { email: registerForm.email }
-            request.post('/getCode', requestBody).then(res => {
-                console.log(res)
+            request.post('/getCode', requestBody).then(({ data }) => {
+                if (data.code == 200) {
+                    ElMessageBox.alert(data.data, "注意", {
+                        confirmButtonText: "好的"
+                    })
+                } else {
+                    ElMessageBox.alert(data.msg, "注意", {
+                        confirmButtonText: "好的"
+                    })
+                }
             }).catch(err => {
-                console.log('请求出错', err)
+                ElMessageBox.alert(err, "注意", {
+                    confirmButtonText: "好的"
+                })
             })
         }
         const handleRegister = async (formEl: FormInstance | undefined) => {
@@ -108,12 +123,26 @@ export default defineComponent({
                     ElMessageBox.alert(errorMessage, '注意', {
                         confirmButtonText: '好的',
                     })
+                } else {
+                    request.post('/register', registerForm).then(({ data }) => {
+                        if (data.code === 200) {
+                            ElMessageBox.alert(data.data, "注意", {
+                                confirmButtonText: "好的"
+                            })
+
+                        } else {
+                            ElMessageBox.alert(data.msg, "注意", {
+                                confirmButtonText: "好的"
+                            })
+                        }
+                    }).catch(err => {
+                        ElMessageBox.alert(err, "注意", {
+                            confirmButtonText: "好的"
+                        })
+                    })
                 }
             })
         }
-        onMounted(()=>{
-            handleSend();
-        })
 
         return {
             itemIndex,
