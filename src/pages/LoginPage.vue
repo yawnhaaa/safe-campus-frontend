@@ -1,7 +1,9 @@
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue';
+import { defineComponent, ref, reactive, onMounted } from 'vue';
 import { ElMessageBox, FormInstance, FormRules } from 'element-plus';
 import MenuItem from '../components/MenuItem.vue'
+import { request } from '@/api/request';
+import axios from 'axios'
 
 export default defineComponent({
     name: 'LoginPage',
@@ -60,12 +62,14 @@ export default defineComponent({
             name: string;
             email: string;
             code: string;
+            passwd: string;
         }
         const registerFormRef = ref<FormInstance>()
         const registerForm = reactive<RegisterFormType>({
             name: '',
             email: '',
             code: '',
+            passwd: '',
         })
         const registerRules = reactive<FormRules<RegisterFormType>>({
             name: [
@@ -76,31 +80,16 @@ export default defineComponent({
                 { required: true, message: '请输入邮箱', trigger: 'blur' },
                 { type: 'email', message: '请输入正确的邮箱格式', trigger: 'blur' },
             ],
-            code: [
-                { required: true, message: '请输入验证码', trigger: 'blur' },
+            passwd: [
+                { required: true, message: '请输入密码', trigger: 'blur' },
             ]
         })
-        const handleSend = async (formEl: FormInstance | undefined) => {
-            if (!formEl) return
-            await formEl.validate((valid, fields) => {
-                if (!valid) {
-                    let errorMessage = '';
-                    for (const fieldName in fields) {
-                        if (fields.hasOwnProperty(fieldName)) {
-                            const fieldMessages = fields[fieldName];
-                            fieldMessages.forEach(messageObj => {
-                                errorMessage += messageObj.message + '; ';
-                            });
-                        }
-                    }
-                    ElMessageBox.alert(errorMessage, '注意', {
-                        confirmButtonText: '好的',
-                    })
-                } else {
-                    ElMessageBox.alert('发送成功', '提示', {
-                        confirmButtonText: '好的',
-                    })
-                }
+        const handleSend = () => {
+            const requestBody = { email: registerForm.email }
+            request.post('/getCode', requestBody).then(res => {
+                console.log(res)
+            }).catch(err => {
+                console.log('请求出错', err)
             })
         }
         const handleRegister = async (formEl: FormInstance | undefined) => {
@@ -122,7 +111,9 @@ export default defineComponent({
                 }
             })
         }
-
+        onMounted(()=>{
+            handleSend();
+        })
 
         return {
             itemIndex,
@@ -146,7 +137,7 @@ export default defineComponent({
 <template>
     <div class="page-contain">
         <menu-item :menuItemList="menuItemList" @item-selected="handleIndex" />
-        <template v-if="itemIndex == 0">
+        <template v-if="itemIndex === '0'">
             <el-form
                 ref="loginFormRef"
                 :model="loginForm"
@@ -181,10 +172,13 @@ export default defineComponent({
                     <el-input v-model="registerForm.email" class="input" />
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="handleSend(registerFormRef)" class="codeButton">发送验证码</el-button>
+                    <el-button type="primary" @click="handleSend" class="codeButton">发送验证码</el-button>
                 </el-form-item>
                 <el-form-item label="验证码">
                     <el-input v-model="registerForm.code" class="register-code" />
+                </el-form-item>
+                <el-form-item label="密码" prop="passwd">
+                    <el-input v-model="registerForm.passwd" class="input" />
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="handleRegister(registerFormRef)" class="button">注册</el-button>
