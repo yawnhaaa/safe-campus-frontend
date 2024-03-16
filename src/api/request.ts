@@ -14,7 +14,19 @@ export const requestJWT = axios.create({
 })
 
 // 跳转登录页方法
-const redirectLogin = () => router.push('/login')
+const redirectLogin = () => {
+    localStorage.setItem('oldPath', window.location.pathname)
+    router.push('/login')
+}
+// 登录成功跳回原登录页面方法
+export const loginSuccess = () => {
+    const redirectPath = localStorage.getItem('oldPath')
+    if (redirectPath) {
+        router.push(redirectPath)
+    } else {
+        router.push('/')
+    }
+}
 
 // 请求后端验证token
 export const verifyUser = async (): Promise<boolean> => {

@@ -2,7 +2,7 @@
 import { defineComponent, ref, reactive, onMounted } from 'vue';
 import { ElMessageBox, FormInstance, FormRules } from 'element-plus';
 import MenuItem from '../components/MenuItem.vue'
-import { request } from '@/api/request';
+import { loginSuccess, request } from '@/api/request';
 import { setToken } from '@/utils/auth';
 
 export default defineComponent({
@@ -18,18 +18,17 @@ export default defineComponent({
             itemIndex.value = index;
         }
         type LoginFormType = {
-            email: string;
+            name: string;
             passwd: string;
         }
         const loginFormRef = ref<FormInstance>()
         const loginForm = reactive<LoginFormType>({
-            email: '',
+            name: '',
             passwd: '',
         })
         const loginRules = reactive<FormRules<LoginFormType>>({
-            email: [
-                { required: true, message: '请输入登录邮箱', trigger: 'blur' },
-                { type: 'email', message: '请输入正确的邮箱', trigger: 'blur'},
+            name: [
+                { required: true, message: '请输入登录昵称', trigger: 'blur' },
             ],
             passwd: [
                 { required: true, message: '请输入登录密码', trigger: 'blur' },
@@ -58,7 +57,8 @@ export default defineComponent({
                                 confirmButtonText: '好的',
                             })
                             setToken(data.data)
-                            localStorage.setItem('user', loginForm.email)
+                            localStorage.setItem('user', loginForm.name)
+                            loginSuccess()
                         } else {
                             ElMessageBox.alert(data.msg, '注意', {
                                 confirmButtonText: '好的',
@@ -197,8 +197,8 @@ export default defineComponent({
                 :rules="loginRules"
                 class="form"
             >
-                <el-form-item label="邮箱" prop="email">
-                    <el-input v-model="loginForm.email" class="input" />
+                <el-form-item label="昵称" prop="name">
+                    <el-input v-model="loginForm.name" class="input" />
                 </el-form-item>
                 <el-form-item label="密码" prop="passwd">
                     <el-input type="password" v-model="loginForm.passwd" class="input" />
@@ -228,7 +228,7 @@ export default defineComponent({
                     <el-input v-model="registerForm.code" class="register-code" />
                 </el-form-item>
                 <el-form-item label="密码" prop="passwd">
-                    <el-input v-model="registerForm.passwd" class="input" />
+                    <el-input type="password" v-model="registerForm.passwd" class="input" />
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="handleRegister(registerFormRef)" class="button">注册</el-button>
