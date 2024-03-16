@@ -1,12 +1,16 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
+import { requestJWT } from '@/api/request'
 
 export default defineComponent({
     name: "LeftItem",
 
     setup() {
+        const hello = ref('666')
         const handleLike = () => {
-            console.log("like")
+            requestJWT.post('/login', hello).then((res) => {
+                console.log(res)
+            })
         }
 
         const handleCollect = () => {

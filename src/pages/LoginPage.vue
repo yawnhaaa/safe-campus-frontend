@@ -3,7 +3,7 @@ import { defineComponent, ref, reactive, onMounted } from 'vue';
 import { ElMessageBox, FormInstance, FormRules } from 'element-plus';
 import MenuItem from '../components/MenuItem.vue'
 import { request } from '@/api/request';
-import axios from 'axios'
+import { setToken } from '@/utils/auth';
 
 export default defineComponent({
     name: 'LoginPage',
@@ -17,8 +17,6 @@ export default defineComponent({
         const handleIndex = (index: string) => {
             itemIndex.value = index;
         }
-        // login表单
-        const loginCode = ref('')
         type LoginFormType = {
             email: string;
             passwd: string;
@@ -35,7 +33,7 @@ export default defineComponent({
             ],
             passwd: [
                 { required: true, message: '请输入登录密码', trigger: 'blur' },
-            ]
+            ],
         })
         const handleLogin = async (formEl: FormInstance | undefined) => {
             if (!formEl) return
@@ -52,6 +50,20 @@ export default defineComponent({
                     }
                     ElMessageBox.alert(errorMessage, '注意', {
                         confirmButtonText: '好的',
+                    })
+                } else {
+                    request.post('/login', loginForm).then(({ data }) => {
+                        if (data.code === 200) {
+                            ElMessageBox.alert("登录成功", '注意', {
+                                confirmButtonText: '好的',
+                            })
+                            setToken(data.data)
+                            localStorage.setItem('user', loginForm.email)
+                        } else {
+                            ElMessageBox.alert(data.msg, '注意', {
+                                confirmButtonText: '好的',
+                            })
+                        }
                     })
                 }
             })
@@ -143,12 +155,24 @@ export default defineComponent({
                 }
             })
         }
-
+        const initLoginForm = () => {
+            loginForm.email = ''
+            loginForm.passwd = ''
+        }
+        const initRegisterForm = () => {
+            registerForm.name = ''
+            registerForm.email = ''
+            registerForm.passwd = ''
+            registerForm.code = ''
+        }
+        onMounted(() => {
+            initLoginForm(),
+            initRegisterForm()
+        })
         return {
             itemIndex,
             menuItemList,
             handleIndex,
-            loginCode,
             loginFormRef,
             loginForm,
             loginRules,
@@ -178,9 +202,6 @@ export default defineComponent({
                 </el-form-item>
                 <el-form-item label="密码" prop="passwd">
                     <el-input type="password" v-model="loginForm.passwd" class="input" />
-                </el-form-item>
-                <el-form-item label="验证码">
-                    <el-input v-model="loginCode" class="input" />
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="handleLogin(loginFormRef)" class="button">登录</el-button>
