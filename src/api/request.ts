@@ -20,13 +20,20 @@ const redirectLogin = () => {
 }
 // 登录成功跳回原登录页面方法
 export const loginSuccess = () => {
-    const redirectPath = localStorage.getItem('oldPath')
-    if (redirectPath) {
-        router.push(redirectPath)
-        localStorage.removeItem('oldPath')
-    } else {
-        router.push('/')
-    }
+  const redirectPath = localStorage.getItem('oldPath')
+  if (redirectPath) {
+    router.push(redirectPath)
+  } else {
+    router.push('/')
+  }
+}
+
+// 检测登录状态
+export const useLogin = async () => {
+  if (await verifyUser()) {
+    router.push('/')
+    console.log(666)
+  }
 }
 
 // 请求后端验证token

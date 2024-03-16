@@ -5,6 +5,7 @@ import { useDark } from '@vueuse/core'
 import { Search } from '@element-plus/icons-vue'
 import { useElementPlusTheme } from 'use-element-plus-theme'
 import '../styles/page.scss'
+import { verifyUser } from '@/api/request'
 
 export default defineComponent({
     name: "MainLayout",
@@ -18,8 +19,18 @@ export default defineComponent({
         const lightLogoSrc = "../../public/lightLogoSrc.png"
         const darkLogoSrc = "../../public/darkLogoSrc.png"
         const { changeTheme } = useElementPlusTheme(localStorage.getItem('selectedTheme'))
+        const isLogin = ref(false)
+        const userName = ref('')
+        const logout = () => {
+            localStorage.removeItem('user')
+            location.reload()
+        }
 
-        onMounted(() => {
+        onMounted(async () => {
+            if (await verifyUser()) {
+                isLogin.value = true
+                userName.value = localStorage.getItem('user') || ''
+            }
             const selectedTheme = localStorage.getItem('selectedTheme') || '';
             document.documentElement.style.setProperty('--custom-font', selectedTheme);
             document.documentElement.style.setProperty('--color-a-hover', selectedTheme);
@@ -36,6 +47,9 @@ export default defineComponent({
             lightLogoSrc,
             darkLogoSrc,
             changeTheme,
+            isLogin,
+            userName,
+            logout,
         }
     }
 })
@@ -57,25 +71,19 @@ export default defineComponent({
                 <RouterLink to="/visual">可视化</RouterLink>
                 <RouterLink to="/issue">发布</RouterLink>
             </nav>
-            <el-input
-                v-model="search"
-                style="max-width: 200px; margin-right: 20px;"
-                placeholder="探索大学反诈"
-                class="input-search"
-            >
+            <el-input v-model="search" style="max-width: 200px; margin-right: 20px;" placeholder="探索大学反诈"
+                class="input-search">
                 <template #append>
                     <el-button :icon="Search" />
                 </template>
             </el-input>
-            <el-switch
-                inline-prompt
-                active-text="黑夜"
-                inactive-text="白天"
-                v-model="isDark"
-                style="display: inline-flex;"
-            />
-            <RouterLink to="/my" class="profile-link">个人信息</RouterLink>
-            <RouterLink to="/login" class="profile-link">登录/注册</RouterLink>
+            <el-switch inline-prompt active-text="黑夜" inactive-text="白天" v-model="isDark"
+                style="display: inline-flex;" />
+            <template v-if="isLogin">
+                <RouterLink to="/my" class="profile-link">欢迎你，{{ userName }}</RouterLink>
+                <div class="logout" @click="logout">退出登录</div>
+            </template>
+            <RouterLink to="/login" class="profile-link" v-else>登录/注册</RouterLink>
         </header>
         <main>
             <div class="main-contain">
@@ -156,6 +164,13 @@ footer {
     a {
         text-decoration: none;
         color: inherit;
+    }
+}
+.logout {
+    margin-left: 20px;
+
+    &:hover {
+        cursor: pointer;
     }
 }
 </style>

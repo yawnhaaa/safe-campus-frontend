@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref, reactive, onMounted } from 'vue';
+import { defineComponent, ref, reactive, onMounted, onUnmounted } from 'vue';
 import { ElMessageBox, FormInstance, FormRules } from 'element-plus';
 import MenuItem from '../components/MenuItem.vue'
 import { loginSuccess, request, verifyUser } from '@/api/request';
@@ -53,9 +53,6 @@ export default defineComponent({
                 } else {
                     request.post('/login', loginForm).then(({ data }) => {
                         if (data.code === 200) {
-                            ElMessageBox.alert("登录成功", '注意', {
-                                confirmButtonText: '好的',
-                            })
                             setToken(data.data)
                             localStorage.setItem('user', loginForm.name)
                             loginSuccess()
@@ -171,6 +168,9 @@ export default defineComponent({
             }
             initLoginForm(),
             initRegisterForm()
+        })
+        onUnmounted(() => {
+            location.reload()
         })
         return {
             itemIndex,
