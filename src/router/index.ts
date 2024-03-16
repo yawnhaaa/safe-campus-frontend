@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '@/pages/HomePage.vue';
 import AdminPage from '@/admin-pages/AdminPage.vue'
+import { getToken } from '@/utils/auth';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -61,16 +62,30 @@ const router = createRouter({
       component: () => import('@/pages/AudioPage.vue')
     },
     {
-      path: '/admin/hello',
-      name: 'adminHello',
-      component: () => import('@/admin-pages/HelloPage.vue')
+      path: '/aLogin',
+      name: 'adminLogin',
+      component: () => import('@/admin-pages/ALoginPage.vue')
     },
     {
       path: '/admin/',
       name: 'admin',
-      component: AdminPage
-    },
+      component: AdminPage,
+      meta: { requiresAuth: true }
+    }
   ]
+})
+
+router.beforeEach(async (to, from, next) => {
+  const token = getToken()
+  if (to.meta.requiresAuth && !token) {
+    if (to.path.includes('admin')) {
+      next('/aLogin')
+    } else {
+      next('/login')
+    }
+  } else {
+    next()
+  }
 })
 
 export default router
