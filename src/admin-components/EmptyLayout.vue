@@ -20,7 +20,6 @@ export default defineComponent({
 <template>
     <div class="contain">
         <div class="header">
-            <div>hello</div>
         </div>
         <div class="main">
             <router-view></router-view>
@@ -30,4 +29,18 @@ export default defineComponent({
     </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.contain {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* 设置高度为视口高度，使其铺满整个浏览器 */
+}
+
+.main {
+    margin: auto;
+    /* 水平居中 */
+}
+</style>
