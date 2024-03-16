@@ -23,6 +23,7 @@ export const loginSuccess = () => {
     const redirectPath = localStorage.getItem('oldPath')
     if (redirectPath) {
         router.push(redirectPath)
+        localStorage.removeItem('oldPath')
     } else {
         router.push('/')
     }

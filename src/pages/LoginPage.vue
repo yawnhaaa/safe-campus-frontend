@@ -2,7 +2,7 @@
 import { defineComponent, ref, reactive, onMounted } from 'vue';
 import { ElMessageBox, FormInstance, FormRules } from 'element-plus';
 import MenuItem from '../components/MenuItem.vue'
-import { loginSuccess, request } from '@/api/request';
+import { loginSuccess, request, verifyUser } from '@/api/request';
 import { setToken } from '@/utils/auth';
 
 export default defineComponent({
@@ -156,7 +156,7 @@ export default defineComponent({
             })
         }
         const initLoginForm = () => {
-            loginForm.email = ''
+            loginForm.name = ''
             loginForm.passwd = ''
         }
         const initRegisterForm = () => {
@@ -165,7 +165,10 @@ export default defineComponent({
             registerForm.passwd = ''
             registerForm.code = ''
         }
-        onMounted(() => {
+        onMounted(async () => {
+            if (await verifyUser()) {
+                loginSuccess()
+            }
             initLoginForm(),
             initRegisterForm()
         })
