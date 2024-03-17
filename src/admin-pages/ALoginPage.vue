@@ -81,7 +81,22 @@ export default defineComponent({
             </el-form-item>
         </el-form>
     </div>
-
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.contain {
+    height: 200px;
+    border: 1px solid gray;
+    border-radius: 5px;
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .form {
+        padding: 20px;
+    }
+}
+</style>

@@ -20,6 +20,7 @@ export default defineComponent({
 <template>
     <div class="contain">
         <div class="header">
+            <div>反诈校园后台管理系统</div>
         </div>
         <div class="main">
             <router-view></router-view>
@@ -37,6 +38,13 @@ export default defineComponent({
     align-items: center;
     height: 100vh;
     /* 设置高度为视口高度，使其铺满整个浏览器 */
+    
+    .header {
+        position:fixed;
+        font-size: 36px;
+        font-weight: bold;
+        top: 200px;
+    }
 }
 
 .main {
