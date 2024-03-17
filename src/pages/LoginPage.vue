@@ -94,11 +94,6 @@ export default defineComponent({
             ]
         })
         const handleSend = () => {
-            if(!registerForm.email){
-                ElMessageBox.alert("请输入邮箱", "注意", {
-                    confirmButtonText: "现在就去输"
-                })
-            }
             const requestBody = { email: registerForm.email }
             request.post('/getCode', requestBody).then(({ data }) => {
                 if (data.code == 200) {
@@ -194,12 +189,7 @@ export default defineComponent({
     <div class="page-contain">
         <menu-item :menuItemList="menuItemList" @item-selected="handleIndex" />
         <template v-if="itemIndex === '0'">
-            <el-form
-                ref="loginFormRef"
-                :model="loginForm"
-                :rules="loginRules"
-                class="form"
-            >
+            <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" class="form">
                 <el-form-item label="昵称" prop="name">
                     <el-input v-model="loginForm.name" class="input" />
                 </el-form-item>
@@ -212,26 +202,22 @@ export default defineComponent({
             </el-form>
         </template>
         <template v-else>
-            <el-form
-                ref="registerFormRef"
-                :model="registerForm"
-                :rules="registerRules"
-                class="form"
-            >
+            <el-form ref="registerFormRef" :model="registerForm" :rules="registerRules" class="form">
                 <el-form-item label="昵称" prop="name">
                     <el-input v-model="registerForm.name" class="input" />
                 </el-form-item>
                 <el-form-item label="邮箱" prop="email">
                     <el-input v-model="registerForm.email" class="input" />
                 </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" @click="handleSend" class="codeButton">发送验证码</el-button>
-                </el-form-item>
-                <el-form-item label="验证码">
-                    <el-input v-model="registerForm.code" class="register-code" />
-                </el-form-item>
                 <el-form-item label="密码" prop="passwd">
                     <el-input type="password" v-model="registerForm.passwd" class="input" />
+                </el-form-item>
+                <el-form-item label="验证码">
+                    <div style="display: flex; width: 100%; align-items: center;">
+                        <el-input v-model="registerForm.code" class="register-code"
+                            style="flex: 1; width: 80px;" />
+                        <el-button type="primary" @click="handleSend" class="codeButton">发送验证码</el-button>
+                    </div>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="handleRegister(registerFormRef)" class="button">注册</el-button>
