@@ -39,7 +39,7 @@ export default defineComponent({
                 { required: true, message: '请输入昵称', trigger: 'blur' },
                 { min: 2, max: 8, message: '长度在2-8之间', trigger: 'blur' },
             ],
-            email: [ { required: true, message: '邮箱不可更改', trigger: 'blur' } ],
+            email: [{ required: true, message: '邮箱不可更改', trigger: 'blur' }],
         })
         const onSave = async (formEl: FormInstance | undefined) => {
             if (!formEl) return

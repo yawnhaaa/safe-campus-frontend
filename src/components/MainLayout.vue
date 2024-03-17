@@ -32,7 +32,8 @@ export default defineComponent({
                 userName.value = localStorage.getItem('user') || ''
             }
             const selectedTheme = localStorage.getItem('selectedTheme') || '';
-            document.documentElement.style.setProperty('--custom-font', selectedTheme);
+            const selectedFont = localStorage.getItem('selectedFont') || '';
+            document.documentElement.style.setProperty('--custom-font', selectedFont);
             document.documentElement.style.setProperty('--color-a-hover', selectedTheme);
         });
 
