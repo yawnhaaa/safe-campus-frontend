@@ -23,7 +23,11 @@ export default defineComponent({
         const userName = ref('')
         const logout = () => {
             localStorage.removeItem('user')
+            localStorage.removeItem('oldPath')
             location.reload()
+        }
+        const handleLogin = () => {
+            localStorage.setItem('oldPath', window.location.pathname)
         }
 
         onMounted(async () => {
@@ -51,6 +55,7 @@ export default defineComponent({
             isLogin,
             userName,
             logout,
+            handleLogin,
         }
     }
 })
@@ -84,7 +89,7 @@ export default defineComponent({
                 <RouterLink to="/my" class="profile-link">欢迎你，{{ userName }}</RouterLink>
                 <div class="logout" @click="logout">退出登录</div>
             </template>
-            <RouterLink to="/login" class="profile-link" v-else>登录/注册</RouterLink>
+            <RouterLink to="/login" class="profile-link" v-else @click="handleLogin">登录/注册</RouterLink>
         </header>
         <main>
             <div class="main-contain">
