@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '@/pages/HomePage.vue';
 import AdminPage from '@/admin-pages/AdminPage.vue'
 import { getToken } from '@/utils/auth';
+import { verifyUser } from '@/api/request';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,7 +35,8 @@ const router = createRouter({
     {
       path: '/my',
       name: 'my',
-      component: () => import('@/pages/MyPage.vue')
+      component: () => import('@/pages/MyPage.vue'),
+      meta: { requiresAuth: true }
     },
     {
       path: '/login',
@@ -76,8 +78,8 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  const token = getToken()
-  if (to.meta.requiresAuth && !token) {
+  const isUser = await verifyUser()
+  if (to.meta.requiresAuth && !isUser) {
     if (to.path.includes('admin')) {
       next('/aLogin')
     } else {
