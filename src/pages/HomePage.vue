@@ -1,8 +1,9 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 import InfoItem from '../components/InfoItem.vue'
 import '../styles/page.scss'
-import { InfoType } from '../types/type'
+import type { InfoType } from '../types/type'
+import { request } from '@/api/request';
 
 export default defineComponent({
     name: 'HomePage',
@@ -11,23 +12,19 @@ export default defineComponent({
     },
 
     setup (){
-        const infoArray: InfoType[] = [
-            {
-                id: '1',
-                title: '标题1',
-                content: '内容1',
-                author: '作者1',
-                like: '点赞：100',
-            },
-            {
-                id: '2',
-                title: '标题2',
-                content: '内容2',
-                author: '作者2',
-                like: '点赞：200',
-                img: '../../public/logo.png',
-            },
-        ]
+        const infoArray = ref<InfoType[] | string>([]);
+        
+        const init = () => {
+            request.get('getInfoList').then((res) => {
+                if (res.status === 200 && res.data.data) {
+                    infoArray.value = res.data.data
+                }
+            })
+        }
+
+        onMounted(() => {
+            init()
+        })
 
         return {
             infoArray,

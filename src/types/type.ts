@@ -1,8 +1,9 @@
 export type InfoType = {
-  id: int;
+  id: number;
   title: string;
   content: string;
   author: string;
-  like: string;
+  infoDate: string;
+  infoLike: number;
   img?: string;
 }

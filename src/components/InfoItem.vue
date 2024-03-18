@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { InfoType } from '../types/type'
+import type { InfoType } from '../types/type'
 import { useRouter } from 'vue-router'
 
 export default defineComponent ({
@@ -14,7 +14,7 @@ export default defineComponent ({
 
     setup() {
         const router = useRouter();
-        const handleToInfoDetail = (id: string) => {
+        const handleToInfoDetail = (id: number) => {
             router.push({ name: 'infoDetail', params: { id } })
         }
 
@@ -32,7 +32,8 @@ export default defineComponent ({
             <div class="text-content">{{ item.content }}</div>
             <div class="text-footer">
                 <span class="text-author">{{ item.author }}</span>
-                <span class="text-like">{{ item.like }}</span>
+                <span class="text-date">{{ item.infoDate }}</span>
+                <span class="text-like" v-show="item.infoLike">喜欢：{{ item.infoLike }}</span>
             </div>
         </div>
         <div class="info-img">
@@ -72,6 +73,12 @@ export default defineComponent ({
             font-size: 14px;
 
             .text-author {
+                margin-right: 10px;
+                padding-right: 10px;
+                border-right: 1px solid gray;
+            }
+
+            .text-date {
                 margin-right: 10px;
                 padding-right: 10px;
                 border-right: 1px solid gray;
