@@ -40,5 +40,4 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-
 </style>
