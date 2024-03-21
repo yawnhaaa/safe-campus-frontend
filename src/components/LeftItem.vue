@@ -1,35 +1,61 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import { requestJWT } from '@/api/request'
+import { defineComponent, ref, nextTick, onMounted } from 'vue'
+import { request, requestJWT } from '@/api/request'
 import _ from 'lodash'; // 引入 lodash 库
+import { ElMessageBox } from 'element-plus';
 
 export default defineComponent({
     name: "LeftItem",
+    props: {
+        infoId: {
+            type: String,
+            required: true
+        }
+    },
 
-    setup() {
-        const hello = ref('666')
+    setup(props) {
         const isLike = ref(false)
+        const infoId = ref(0)
         const handleLike = () => {
-            isLike.value = !isLike.value
-            debouncedLike();
+            if (!isLike.value) {
+                const body = {
+                    userName: localStorage.getItem('user') || '',
+                    infoId: infoId.value,
+                    type: 0,
+                    isStatus: true
+                };
+                requestJWT.post('/handleInfo', body).then((res) => {
+                    if (res.data.code === -1) {
+                        ElMessageBox.alert(res.data.msg, '注意', {
+                            confirmButtonText: '好的',
+                        })
+                        return
+                    }
+                })
+            }
+            isLike.value = true
         }
-        const callLike = () => {
-            console.log('防抖')
-            requestJWT.post('/login', hello).then((res) => {
-                console.log(res)
-            })
-        }
-        const debouncedLike = _.debounce(callLike, 1000); // 设置1秒的防抖时间
 
         const isCollect = ref(false)
         const handleCollect = () => {
-            isCollect.value = !isCollect.value
-            throttleCollect();
+            if (!isCollect.value) {
+                const body = {
+                    userName: localStorage.getItem('user') || '',
+                    infoId: infoId.value,
+                    type: 1,
+                    isStatus: true
+                };
+                requestJWT.post('/handleInfo', body).then((res) => {
+                    if (res.data.code === -1) {
+                        ElMessageBox.alert(res.data.msg, '注意', {
+                            confirmButtonText: '好的',
+                        })
+                    }
+                })
+
+                isCollect.value = true
+            }
         }
-        const callCollect = () => {
-            console.log('节流')
-        }
-        const throttleCollect = _.throttle(callCollect, 1000);
 
         const handleComment = () => {
             console.log("comment")
@@ -38,6 +64,28 @@ export default defineComponent({
         const handleShare = () => {
             console.log("share")
         }
+
+        const getInfoUserStatus = () => {
+            if (localStorage.getItem('user') && infoId.value) {
+                const body = {
+                    userName: localStorage.getItem('user') || '',
+                    infoId: infoId.value,
+                };
+                request.post('/getInfoUserStatus', body).then((res) => {
+                    if (res.data.code !== -1) {
+                        isLike.value = res.data.data.likeStatus
+                        isCollect.value = res.data.data.collectStatus
+                    }
+                })
+            }
+        }
+
+        onMounted(() => {
+            nextTick(() => {
+                infoId.value = parseInt(props.infoId)
+                getInfoUserStatus()
+            })
+        })
 
         return {
             isLike,

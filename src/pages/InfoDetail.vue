@@ -15,6 +15,7 @@ export default defineComponent({
     },
 
     setup() {
+        const infoId = ref('');
         const route = useRoute();
         type InfoContentType = {
             id: number;
@@ -47,6 +48,7 @@ export default defineComponent({
 
         onMounted(() => {
             const id = Array.isArray(route.params.id) ? route.params.id[0] : route.params.id;
+            infoId.value = id;
             getInfoDetail(id);
         })
         onUnmounted(() => {
@@ -54,6 +56,7 @@ export default defineComponent({
 
         return {
             info,
+            infoId,
             leftShow,
         }
     }
@@ -63,7 +66,7 @@ export default defineComponent({
 
 <template>
     <div class="page-contain">
-        <left-item />
+        <left-item :infoId="infoId" />
         <div class="info-contain">
             <h1>{{ info?.title }}</h1>
             <div class="info-header">
