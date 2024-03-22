@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue'
+import { defineComponent, ref, reactive, onMounted } from 'vue'
 import { ElMessageBox, FormInstance, FormRules } from 'element-plus'
 import { adminLoginSuccess, request } from '@/api/request';
 import { setToken } from '@/utils/auth';
@@ -56,6 +56,10 @@ export default defineComponent({
                 }
             })
         }
+
+        onMounted(() => {
+            localStorage.removeItem("userName")
+        })
 
         return {
             loginFormRef,
