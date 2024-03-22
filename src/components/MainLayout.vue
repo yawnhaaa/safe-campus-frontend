@@ -33,7 +33,7 @@ export default defineComponent({
         onMounted(async () => {
             if (await verifyUser()) {
                 isLogin.value = true
-                userName.value = localStorage.getItem('user') || ''
+                userName.value = localStorage.getItem('userName') || ''
             }
             const selectedTheme = localStorage.getItem('selectedTheme') || '';
             const selectedFont = localStorage.getItem('selectedFont') || '';
