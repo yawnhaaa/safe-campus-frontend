@@ -1,7 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref, nextTick, onMounted } from 'vue'
 import { request, requestJWT } from '@/api/request'
-import _ from 'lodash'; // 引入 lodash 库
 import { ElMessageBox } from 'element-plus';
 
 export default defineComponent({
