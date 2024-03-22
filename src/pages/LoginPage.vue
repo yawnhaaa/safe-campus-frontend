@@ -54,7 +54,7 @@ export default defineComponent({
                     request.post('/login', loginForm).then(({ data }) => {
                         if (data.code === 200) {
                             setToken(data.data.jwt)
-                            localStorage.setItem('userName', data.data.userName)
+                            localStorage.setItem('user', data.data.userName)
                             localStorage.setItem('userId', data.data.userId)
                             loginSuccess()
                         } else {

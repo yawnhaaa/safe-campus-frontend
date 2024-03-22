@@ -18,7 +18,7 @@ export default defineComponent({
         const handleLike = () => {
             if (!isLike.value) {
                 const body = {
-                    userName: localStorage.getItem('userName') || '',
+                    userName: localStorage.getItem('user') || '',
                     infoId: infoId.value,
                     type: 0,
                     isStatus: true
@@ -39,7 +39,7 @@ export default defineComponent({
         const handleCollect = () => {
             if (!isCollect.value) {
                 const body = {
-                    userName: localStorage.getItem('userName') || '',
+                    userName: localStorage.getItem('user') || '',
                     infoId: infoId.value,
                     type: 1,
                     isStatus: true
@@ -65,9 +65,9 @@ export default defineComponent({
         }
 
         const getInfoUserStatus = () => {
-            if (localStorage.getItem('userName') && infoId.value) {
+            if (localStorage.getItem('user') && infoId.value) {
                 const body = {
-                    userName: localStorage.getItem('userName') || '',
+                    userName: localStorage.getItem('user') || '',
                     infoId: infoId.value,
                 };
                 request.post('/getInfoUserStatus', body).then((res) => {

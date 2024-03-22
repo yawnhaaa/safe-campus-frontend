@@ -31,9 +31,12 @@ export default defineComponent({
         }
 
         onMounted(async () => {
+            if (localStorage.getItem("user") === "admin") {
+                localStorage.removeItem("user")
+            }
             if (await verifyUser()) {
                 isLogin.value = true
-                userName.value = localStorage.getItem('userName') || ''
+                userName.value = localStorage.getItem('user') || ''
             }
             const selectedTheme = localStorage.getItem('selectedTheme') || '';
             const selectedFont = localStorage.getItem('selectedFont') || '';
