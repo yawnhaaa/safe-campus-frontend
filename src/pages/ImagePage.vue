@@ -2,14 +2,10 @@
 import { defineComponent, ref } from 'vue'
 import '../styles/page.scss'
 import '../styles/materia.scss'
-import LeftItem from '../components/LeftItem.vue'
-import CommentItem from '../components/CommentItem.vue'
 
 export default defineComponent({
     name: 'ImagePage',
     components: {
-        LeftItem,
-        CommentItem,
     },
     setup() {
         const materia = ref({
@@ -32,7 +28,6 @@ export default defineComponent({
 
 <template>
     <div class="page-contain">
-        <left-item />
         <div class="materia-contain">
             <div class="materia-header">
                 <h1 class="materia-title">{{ materia.title }}</h1>
@@ -44,7 +39,6 @@ export default defineComponent({
             </div>
             <h1>图像组件</h1>
         </div>
-        <comment-item />
     </div>
 </template>
 
