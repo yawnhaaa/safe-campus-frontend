@@ -1,15 +1,15 @@
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, onMounted, PropType } from 'vue'
 import { useRouter } from 'vue-router'
 
 
 type ItemType = {
     id: string;
-    src: string;
+    imgSrc: string;
     title: string;
     author: string;
-    date: string;
-    type: string;
+    materialDate: string;
+    materialType: string;
 }
 
 export default defineComponent({
@@ -20,19 +20,30 @@ export default defineComponent({
             required: true
         }
     },
-    setup(_) {
+    setup(props) {
         const router = useRouter()
         const handleItem = (item: ItemType) => {
-            if(item.type == '0') {
+            if(item.materialType == '0') {
                 router.push({ name: 'imageMateria', params: { id: item.id } })
-            } else if(item.type == '1') {
+            } else if(item.materialType == '1') {
                 router.push({ name: 'videoMateria', params: { id: item.id } })
             } else {
                 router.push({ name: 'audioMateria', params: { id: item.id } })
             }
         }
 
+        const formatTime = (time: string) => {
+            const date: Date = new Date(time);
+            const formattedTime: string = `${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+            return formattedTime
+        }
+
+        onMounted(() => {
+            console.log(props.itemList)
+        })
+
         return {
+            formatTime,
             handleItem,
         }
     }
@@ -41,13 +52,13 @@ export default defineComponent({
 </script>
 
 <template>
-    <div class="materia-item" v-for="item in itemList" :key="item.id" @click="handleItem(item)" >
-        <img :src="item.src" class="materia-image" />
+    <div class="materia-item" v-for="(item, index) in itemList" :key="index" @click="handleItem(item)" >
+        <img :src="item.imgSrc ? item.imgSrc : 'src/assets/images/fanzha.jpg'" class="materia-image" />
         <div class="materia-info">
             <div class="materia-title">{{ item.title }}</div>
             <div class="materia-footer">
                 <span class="materia-author">{{ item.author }}</span>
-                <span class="materia-date">{{ item.date }}</span>
+                <span class="materia-date">{{ formatTime(item.materialDate) }}</span>
             </div>
         </div>
     </div>

@@ -1,7 +1,8 @@
 <script lang="ts">
-import { defineComponent, ref, } from 'vue';
+import { defineComponent, onMounted, ref, } from 'vue';
 import MenuItem from '../components/MenuItem.vue'
 import MateriaItem from '../components/MateriaItem.vue'
+import { request } from '@/api/request';
 
 export default defineComponent({
     name: 'MaterialPage',
@@ -17,32 +18,7 @@ export default defineComponent({
         }
 
         // 测试数据
-        const imageList = ref([
-            {
-                id: '0',
-                src: 'src/assets/images/fanzha.jpg',
-                title: '图像0',
-                author: '阿赵',
-                date: '3-7',
-                type: '0',
-            },
-            {
-                id: '1',
-                src: 'src/assets/images/fanzha.jpg',
-                title: '图像1',
-                author: '阿宇',
-                date: '3-8',
-                type: '0',
-            },
-            {
-                id: '2',
-                src: 'src/assets/images/fanzha.jpg',
-                title: '图像2',
-                author: '阿豪',
-                date: '3-0',
-                type: '0',
-            },
-        ])
+        const imageList = ref([])
         const videoList = ref([
             {
                 id: '0',
@@ -119,6 +95,33 @@ export default defineComponent({
                 type: '2',
             },
         ])
+        const getImageList = () => {
+            request.get("/imageList").then((res) => {
+                if (res.data.code === 200 && res.data.data) {
+                    imageList.value = res.data.data
+                }
+            })
+        }
+        const getVideoList = () => {
+            request.get("/videoList").then((res) => {
+                if (res.data.code === 200 && res.data.data) {
+                    videoList.value = res.data.data
+                }
+            })
+        }
+        const getAudioList = () => {
+            request.get("/audioList").then((res) => {
+                if (res.data.code === 200 && res.data.data) {
+                    audioList.value = res.data.data
+                }
+            })
+        }
+
+        onMounted(() => {
+            getImageList()
+            getVideoList()
+            getAudioList()
+        })
 
         return {
             menuItemList,
@@ -135,12 +138,12 @@ export default defineComponent({
 <template>
     <div class="page-contain">
         <menu-item :menuItemList="menuItemList" @item-selected="handleIndex"/>
-        <template v-if="itemIndex == 0">
+        <template v-if="itemIndex == '0'">
             <div class="image-contain">
                 <materia-item :itemList="imageList" />
             </div>
         </template>
-        <template v-else-if="itemIndex == 1">
+        <template v-else-if="itemIndex == '1'">
             <div class="video-contain">
                 <materia-item :itemList="videoList" />
             </div>

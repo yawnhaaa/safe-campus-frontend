@@ -3,7 +3,7 @@ import { getToken } from '@/utils/auth'
 import router from '@/router/index'
 import { ElMessageBox } from 'element-plus'
 
-const url = 'http://127.0.0.1:8080/api'
+export const url = 'http://127.0.0.1:8080/api'
 
 export const request = axios.create({
   baseURL: url
