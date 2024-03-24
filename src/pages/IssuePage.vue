@@ -42,12 +42,17 @@ export default defineComponent({
             authorId: 0,
             content: '',
         })
+        const infoUpload = ref<any>(null);
+        const infoFileClear = () => {
+            infoUpload.value.clearFiles()
+        }
         const initInfoForm = () => {
             infoForm.title = ''
             infoForm.author= ''
             infoForm.authorId = 0
             infoForm.content = ''
-            file.value = null
+            infoFile.value = null
+            infoFileClear()
         }
         const infoFormRules = reactive<FormRules<InfoFormType>>({
             title: [
@@ -57,9 +62,10 @@ export default defineComponent({
                 { required: true, message: '请输入资讯内容', trigger: 'blur' }
             ]
         })
-        const file = ref(null)
-        const handleFileUpload = (event) => {
-            file.value = event.target.files[0];
+        // 文件上传逻辑
+        const infoFile = ref(null)
+        const uploadInfoImage = (uploadFile: any) => {
+            infoFile.value = uploadFile.raw
         }
         const handleInfoIssue = async (formEl: FormInstance | undefined) => {
             if (!formEl) return
@@ -86,7 +92,10 @@ export default defineComponent({
                 formData.append("content", infoForm.content)
                 formData.append("author", author)
                 formData.append("authorId", authorId)
-                formData.append("file", file.value)
+                // 如果没有文件，则不向formData添加
+                if (infoFile.value !== null) {
+                    formData.append("file", infoFile.value)
+                }
                 requestJWT.post("/issueInfo", formData).then((res) => {
                     if (res.data.code === 200) {
                         ElMessageBox.alert(res.data.data, '注意', {
@@ -101,8 +110,12 @@ export default defineComponent({
                             initInfoForm()
                         })
                     }
-                }).catch((err) => {
-                    console.log(err)
+                }).catch(() => {
+                    ElMessageBox.alert("文件过大", '注意', {
+                            confirmButtonText: '好的',
+                        }).then(() => {
+                            initInfoForm()
+                        })
                 })
             })
         }
@@ -148,7 +161,8 @@ export default defineComponent({
         }
 
         return {
-            handleFileUpload,
+            infoUpload,
+            uploadInfoImage,
             menuItemList,
             itemIndex,
             handleIndex,
@@ -174,10 +188,14 @@ export default defineComponent({
                 <el-form-item label="资讯标题" prop="title">
                     <el-input v-model="infoForm.title" class="input" />
                 </el-form-item>
-                <input type="file" @change="handleFileUpload" ref="fileInput" />
                 <el-form-item label="资讯内容" prop="content">
                     <el-input v-model="infoForm.content" class="info-content" :rows="22" maxlength="1000"
                         show-word-limit type="textarea" />
+                </el-form-item>
+                <el-form-item label="资讯展示图片">
+                    <el-upload ref="infoUpload" :limit=1 :auto-upload="false" :on-change="uploadInfoImage" accept="image/*">
+                        <el-button size="small" type="primary">点击上传</el-button>
+                    </el-upload>
                 </el-form-item>
                 <el-form-item>
                     <el-button @click="handleInfoIssue(infoFormRef)" type="primary" class="button">发布</el-button>
