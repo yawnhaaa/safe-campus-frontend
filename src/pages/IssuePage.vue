@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue'
+import { defineComponent, reactive, ref, watch } from 'vue'
 import '../styles/page.scss'
 import MenuItem from '../components/MenuItem.vue'
 import { ElMessageBox, FormInstance, FormRules } from 'element-plus'
@@ -12,7 +12,6 @@ export default defineComponent({
         MenuItem,
         UploadFilled,
     },
-
     setup() {
         type InfoFormType = {
             title: string;
@@ -23,9 +22,9 @@ export default defineComponent({
         type MateriaFormType = {
             title: string;
             author: string;
-            date: string;
-            radio: string;
-            content: string;
+            authorId: number;
+            radio: number;
+            file: File;
         }
 
         const menuItemList = ref(['资讯上传', '素材上传'])
@@ -125,9 +124,9 @@ export default defineComponent({
         const materiaForm = reactive<MateriaFormType>({
             title: '',
             author: '',
-            date: '',
-            radio: '',
-            content: '',
+            authorId: 0,
+            radio: null,
+            file: null
         })
         const materiaFormRules = reactive<FormRules<MateriaFormType>>({
             title: [
@@ -136,10 +135,32 @@ export default defineComponent({
             radio: [
                 { required: true, message: '请选择类型', trigger: 'blur' },
             ],
-            content: [
-                { required: true, message: '请输入资讯内容', trigger: 'blur' }
+            file: [
+                { required: true, message: '请上传资讯文件', trigger: 'blur' }
             ]
         })
+        const materialImgFile = ref(null)
+        const materialImgUpload = ref(null)
+        const materialFile = ref(null)
+        const materialFileClear = () => {
+            materialFile.value.clearFiles()
+            materialImgUpload.value.clearFiles()
+        }
+        const uploadMaterialImage = (uploadFile: any) => {
+            materialImgFile.value = uploadFile.raw
+        }
+        const uploadMaterial = (uploadFile: any) => {
+            materiaForm.file = uploadFile.raw
+        }
+        const initMaterialForm = () => {
+            materiaForm.author = '',
+            materiaForm.authorId = 0,
+            materiaForm.title = '',
+            materiaForm.radio = null,
+            materiaForm.file = null,
+            materialImgFile.value = null,
+            materialFileClear()
+        }
         const handleMateriaIssue = async (formEl: FormInstance | undefined) => {
             if (!formEl) return
             await formEl.validate((valid, fields) => {
@@ -156,11 +177,69 @@ export default defineComponent({
                     ElMessageBox.alert(errorMessage, '注意', {
                         confirmButtonText: '好的',
                     })
+                    return
                 }
+                const author = localStorage.getItem("user") || ''
+                const authorId = Number(localStorage.getItem("userId")) || 0
+                const formData = new FormData()
+                formData.append("title", materiaForm.title)
+                formData.append("materialType", materiaForm.radio)
+                formData.append("author", author)
+                formData.append("authorId", authorId)
+                // 如果没有文件，则不向formData添加
+                if (materiaForm.file !== null) {
+                    formData.append("file", materiaForm.file)
+                }
+                // 如果没有文件，则不向formData添加
+                if (materialImgFile.value !== null) {
+                    formData.append("imgFile", materialImgFile.value)
+                }
+                requestJWT.post("/issueMaterial", formData).then((res) => {
+                    if (res.data.code === 200) {
+                        ElMessageBox.alert(res.data.data, '注意', {
+                            confirmButtonText: '好的',
+                        }).then(() => {
+                            initMaterialForm()
+                        })
+                    } else {
+                        ElMessageBox.alert(res.data.msg, '注意', {
+                            confirmButtonText: '好的',
+                        }).then(() => {
+                            initMaterialForm()
+                        })
+                    }
+                }).catch(() => {
+                    ElMessageBox.alert("文件过大", '注意', {
+                        confirmButtonText: '好的',
+                    }).then(() => {
+                        initMaterialForm()
+                    })
+                })
             })
         }
 
+        const acceptFileType = ref('')
+
+        watch(() => materiaForm.radio, (newValue) => {
+            switch (newValue) {
+                case 0:
+                    acceptFileType.value = 'image/*';
+                    break;
+                case 1:
+                    acceptFileType.value = 'video/*';
+                    break;
+                case 2:
+                    acceptFileType.value = 'audio/*';
+                    break;
+                default:
+                    acceptFileType.value = '';
+                    break;
+            }
+        })
+
         return {
+            acceptFileType,
+            uploadMaterial,
             infoUpload,
             uploadInfoImage,
             menuItemList,
@@ -174,6 +253,9 @@ export default defineComponent({
             materiaForm,
             materiaFormRules,
             handleMateriaIssue,
+            uploadMaterialImage,
+            materialImgUpload,
+            materialFile,
         }
     }
 })
@@ -193,8 +275,9 @@ export default defineComponent({
                         show-word-limit type="textarea" />
                 </el-form-item>
                 <el-form-item label="资讯展示图片">
-                    <el-upload ref="infoUpload" :limit=1 :auto-upload="false" :on-change="uploadInfoImage" accept="image/*">
-                        <el-button size="small" type="primary">点击上传</el-button>
+                    <el-upload ref="infoUpload" :limit=1 :auto-upload="false" :on-change="uploadInfoImage"
+                        accept="image/*">
+                        <el-button type="primary">点击上传</el-button>
                     </el-upload>
                 </el-form-item>
                 <el-form-item>
@@ -214,9 +297,15 @@ export default defineComponent({
                         <el-radio :value='2'>音频</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="素材内容" prop="content">
-                    <el-upload v-model="materiaForm.content" class="upload-demo"
-                        action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15" multiple :limit="1">
+                <el-form-item label="素材文件" prop="file">
+                    <el-upload ref="materialFile" v-model="materiaForm.file" :auto-upload="false"
+                        :on-change="uploadMaterial" class="upload-demo" :limit="1" :accept="acceptFileType">
+                        <el-button type="primary">点击上传</el-button>
+                    </el-upload>
+                </el-form-item>
+                <el-form-item label="素材展示图片">
+                    <el-upload ref="materialImgUpload" :limit=1 :auto-upload="false" :on-change="uploadMaterialImage"
+                        accept="image/*">
                         <el-button type="primary">点击上传</el-button>
                     </el-upload>
                 </el-form-item>
