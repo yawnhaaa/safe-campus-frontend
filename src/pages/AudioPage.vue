@@ -29,7 +29,6 @@ export default defineComponent({
             request.get("/material/" + getMateriaId()).then((res) => {
                 if (res.data.code === 200 && res.data.data) {
                     materia.value = res.data.data
-                    console.log(res.data.data)
                     materiaSrc.value = url + "/resource/audios/" + res.data.data.src
                     src.value = res.data.data.src
                 } else {

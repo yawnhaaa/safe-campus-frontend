@@ -1,7 +1,8 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 import '../styles/page.scss'
 import { useDark } from '@vueuse/core'
+import { request } from '@/api/request';
 
 export default defineComponent({
     name: 'LearnPage',
@@ -19,72 +20,12 @@ export default defineComponent({
             title: string;
             analysis: string;
             isSubmit: boolean;
-            content: ContentType[]
+            questionContentEntityList: ContentType[]
         }
 
+        const topicList = ref<TopicType[]>([])
+
         const isDark = useDark();
-        const topicList = ref<TopicType[]>([
-            {
-                id: '0',
-                type: '0',
-                title: '阿豪帅不帅',
-                analysis: '单选题解析',
-                isSubmit: false,
-                content: [
-                    {
-                        id: '0',
-                        content: '帅',
-                        isChecked: false,
-                        isTrue: false,
-                    },
-                    {
-                        id: '1',
-                        content: '很帅',
-                        isChecked: false,
-                        isTrue: false,
-                    },
-                    {
-                        id: '2',
-                        content: '特别帅',
-                        isChecked: false,
-                        isTrue: true,
-                    },
-                ],
-            },
-            {
-                id: '1',
-                type: '1',
-                title: '阿豪帅不帅',
-                analysis: '多选题解析',
-                isSubmit: false,
-                content: [
-                    {
-                        id: '0',
-                        content: '帅',
-                        isChecked: false,
-                        isTrue: true,
-                    },
-                    {
-                        id: '1',
-                        content: '很帅',
-                        isChecked: false,
-                        isTrue: true,
-                    },
-                    {
-                        id: '2',
-                        content: '特别帅',
-                        isChecked: false,
-                        isTrue: true,
-                    },
-                    {
-                        id: '3',
-                        content: '巨无敌帅',
-                        isChecked: false,
-                        isTrue: true,
-                    },
-                ],
-            }
-        ])
         const checkItem = (item: ContentType) => {
             item.isChecked = !item.isChecked;
         }
@@ -125,6 +66,21 @@ export default defineComponent({
             analysisVisible.value = true
         }
 
+        const getQuestionList = () => {
+            request.get("/getQuestionList").then((res) => {
+                if (res.data.code === 200) {
+                    const questionListData: TopicType[] = res.data.data;
+                    topicList.value = questionListData;
+                }
+            }).catch((error) => {
+                console.error("Error fetching question list:", error);
+            });
+        }
+
+        onMounted(() => {
+            getQuestionList()
+        })
+
         return {
             isDark,
             topicList,
@@ -147,21 +103,24 @@ export default defineComponent({
     <div class="page-contain">
         <h1>激情答题区</h1>
         <div class="answer-contain">
-            <div class="answer-area" :style="{ background: isDark ? '#333333' : '#ECECEC' }">
+            <div v-if="topicList.length > 0" class="answer-area"
+                :style="{ background: isDark ? '#333333' : '#ECECEC' }">
                 <div class="answer-topic">
-                    <span style="color: orange;">{{ topicList[topicIndex].type == '0' ? '单选' : '多选' }}</span>
+                    <span style="color: orange;">{{ topicList[topicIndex].type === '0' ? '单选' : '多选' }}</span>
                     <span>题目：{{ topicList[topicIndex].title }}</span>
                 </div>
                 <div class="answer-content">
-                    <div class="answer-item" 
-                        v-for="item in topicList[topicIndex].content" 
-                        :key="item.id" 
+                    <div class="answer-item" v-for="item in topicList[topicIndex].questionContentEntityList" 
+                        :key="item.id"
                         :style="dynamicStyles(item)"
                         @click="checkItem(item)"
-                    >
+                        >
                         {{ item.content }}
                     </div>
                 </div>
+            </div>
+            <div v-else>
+                Loading...
             </div>
             <div class="answer-button">
                 <el-button :disabled="topicIndex === 0" @click="previousTopic">上一题</el-button>

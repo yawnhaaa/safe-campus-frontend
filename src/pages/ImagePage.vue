@@ -27,7 +27,6 @@ export default defineComponent({
         
         const getMateria = () => {
             request.get("/material/" + getMateriaId()).then((res) => {
-                console.log(res.data.data)
                 if (res.data.code === 200 && res.data.data) {
                     materia.value = res.data.data
                     materiaSrc.value = url + "/resource/images/" + res.data.data.src

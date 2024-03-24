@@ -57,11 +57,9 @@ export default defineComponent({
         }
 
         const handleComment = () => {
-            console.log("comment")
         }
 
         const handleShare = () => {
-            console.log("share")
         }
 
         const getInfoUserStatus = () => {
@@ -102,8 +100,8 @@ export default defineComponent({
     <div class="left-contain">
         <img src="../assets/icon/like.png" @click="handleLike" :style="isLike ? 'background: red;' : '' "/>
         <img src="../assets/icon/shoucang.png" @click="handleCollect" :style="isCollect ? 'background: yellow;' : '' " />
-        <img src="../assets/icon/comment.png" @click="handleComment" />
-        <img src="../assets/icon/fenxiang.png" @click="handleShare" />
+        <!-- <img src="../assets/icon/comment.png" @click="handleComment" />
+        <img src="../assets/icon/fenxiang.png" @click="handleShare" /> -->
     </div>
 </template>
 
