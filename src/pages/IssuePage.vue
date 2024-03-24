@@ -4,6 +4,7 @@ import '../styles/page.scss'
 import MenuItem from '../components/MenuItem.vue'
 import { ElMessageBox, FormInstance, FormRules } from 'element-plus'
 import { UploadFilled } from '@element-plus/icons-vue'
+import { requestJWT } from '@/api/request'
 
 export default defineComponent({
     name: "IssuePage",
@@ -16,7 +17,7 @@ export default defineComponent({
         type InfoFormType = {
             title: string;
             author: string;
-            date: string;
+            authorId: number;
             content: string;
         }
         type MateriaFormType = {
@@ -38,9 +39,15 @@ export default defineComponent({
         const infoForm = reactive<InfoFormType>({
             title: '',
             author: '',
-            date: '',
+            authorId: 0,
             content: '',
         })
+        const initInfoForm = () => {
+            infoForm.title = ''
+            infoForm.author= ''
+            infoForm.authorId = 0
+            infoForm.content = ''
+        }
         const infoFormRules = reactive<FormRules<InfoFormType>>({
             title: [
                 { required: true, message: '请输入标题', trigger: 'blur' },
@@ -66,6 +73,17 @@ export default defineComponent({
                         confirmButtonText: '好的',
                     })
                 }
+                infoForm.author = localStorage.getItem("user") || ''
+                infoForm.authorId = Number(localStorage.getItem("userId")) || 0
+                requestJWT.post("/issueInfo", infoForm).then((res) => {
+                    ElMessageBox.alert(res.data.data, '注意', {
+                        confirmButtonText: '好的',
+                    }).then(() => {
+                        initInfoForm()
+                    })
+                }).catch((err) => {
+                    console.log(err)
+                })
             })
         }
 
