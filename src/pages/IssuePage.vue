@@ -47,6 +47,7 @@ export default defineComponent({
             infoForm.author= ''
             infoForm.authorId = 0
             infoForm.content = ''
+            file.value = null
         }
         const infoFormRules = reactive<FormRules<InfoFormType>>({
             title: [
@@ -56,6 +57,10 @@ export default defineComponent({
                 { required: true, message: '请输入资讯内容', trigger: 'blur' }
             ]
         })
+        const file = ref(null)
+        const handleFileUpload = (event) => {
+            file.value = event.target.files[0];
+        }
         const handleInfoIssue = async (formEl: FormInstance | undefined) => {
             if (!formEl) return
             await formEl.validate((valid, fields) => {
@@ -72,15 +77,30 @@ export default defineComponent({
                     ElMessageBox.alert(errorMessage, '注意', {
                         confirmButtonText: '好的',
                     })
+                    return
                 }
-                infoForm.author = localStorage.getItem("user") || ''
-                infoForm.authorId = Number(localStorage.getItem("userId")) || 0
-                requestJWT.post("/issueInfo", infoForm).then((res) => {
-                    ElMessageBox.alert(res.data.data, '注意', {
-                        confirmButtonText: '好的',
-                    }).then(() => {
-                        initInfoForm()
-                    })
+                const author = localStorage.getItem("user") || ''
+                const authorId = Number(localStorage.getItem("userId")) || 0
+                const formData = new FormData()
+                formData.append("title", infoForm.title)
+                formData.append("content", infoForm.content)
+                formData.append("author", author)
+                formData.append("authorId", authorId)
+                formData.append("file", file.value)
+                requestJWT.post("/issueInfo", formData).then((res) => {
+                    if (res.data.code === 200) {
+                        ElMessageBox.alert(res.data.data, '注意', {
+                            confirmButtonText: '好的',
+                        }).then(() => {
+                            initInfoForm()
+                        })
+                    } else {
+                        ElMessageBox.alert(res.data.msg, '注意', {
+                            confirmButtonText: '好的',
+                        }).then(() => {
+                            initInfoForm()
+                        })
+                    }
                 }).catch((err) => {
                     console.log(err)
                 })
@@ -128,6 +148,7 @@ export default defineComponent({
         }
 
         return {
+            handleFileUpload,
             menuItemList,
             itemIndex,
             handleIndex,
@@ -149,24 +170,14 @@ export default defineComponent({
     <div class="page-contain">
         <menu-item :menuItemList="menuItemList" @item-selected="handleIndex" />
         <template v-if="itemIndex == 0">
-            <el-form
-                ref="infoFormRef"
-                :model="infoForm"
-                :rules="infoFormRules"
-                class="form"
-            >
+            <el-form ref="infoFormRef" :model="infoForm" :rules="infoFormRules" class="form">
                 <el-form-item label="资讯标题" prop="title">
                     <el-input v-model="infoForm.title" class="input" />
                 </el-form-item>
+                <input type="file" @change="handleFileUpload" ref="fileInput" />
                 <el-form-item label="资讯内容" prop="content">
-                    <el-input
-                        v-model="infoForm.content"
-                        class="info-content"
-                        :rows="22"
-                        maxlength="1000"
-                        show-word-limit
-                        type="textarea"
-                    />
+                    <el-input v-model="infoForm.content" class="info-content" :rows="22" maxlength="1000"
+                        show-word-limit type="textarea" />
                 </el-form-item>
                 <el-form-item>
                     <el-button @click="handleInfoIssue(infoFormRef)" type="primary" class="button">发布</el-button>
@@ -174,12 +185,7 @@ export default defineComponent({
             </el-form>
         </template>
         <template v-else>
-            <el-form
-                ref="materiaFormRef"
-                :model="materiaForm"
-                :rules="materiaFormRules"
-                class="form"
-            >
+            <el-form ref="materiaFormRef" :model="materiaForm" :rules="materiaFormRules" class="form">
                 <el-form-item label="素材标题" prop="title">
                     <el-input v-model="materiaForm.title" class="input" />
                 </el-form-item>
@@ -191,13 +197,8 @@ export default defineComponent({
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="素材内容" prop="content">
-                    <el-upload
-                        v-model="materiaForm.content"
-                        class="upload-demo"
-                        action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-                        multiple
-                        :limit="1"
-                    >
+                    <el-upload v-model="materiaForm.content" class="upload-demo"
+                        action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15" multiple :limit="1">
                         <el-button type="primary">点击上传</el-button>
                     </el-upload>
                 </el-form-item>
