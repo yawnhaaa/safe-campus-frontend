@@ -73,6 +73,56 @@ const router = createRouter({
       name: 'admin',
       component: AdminPage,
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/admin/audios',
+      name: 'audios',
+      component: () => import('@/admin-pages/AudiosPage.vue')
+    },
+    {
+      path: '/admin/audiosReview',
+      name: 'audiosReview',
+      component: () => import('@/admin-pages/AudiosReview.vue')
+    },
+    {
+      path: '/admin/images',
+      name: 'images',
+      component: () => import('@/admin-pages/ImagesPage.vue')
+    },
+    {
+      path: '/admin/imagesReview',
+      name: 'imagesReview',
+      component: () => import('@/admin-pages/ImagesReview.vue')
+    },
+    {
+      path: '/admin/info',
+      name: 'info',
+      component: () => import('@/admin-pages/InfoPage.vue')
+    },
+    {
+      path: '/admin/infoReview',
+      name: 'infoReview',
+      component: () => import('@/admin-pages/InfoReview.vue')
+    },
+    {
+      path: '/admin/questions',
+      name: 'questions',
+      component: () => import('@/admin-pages/QuestionsPage.vue')
+    },
+    {
+      path: '/admin/videos',
+      name: 'videos',
+      component: () => import('@/admin-pages/VideosPage.vue')
+    },
+    {
+      path: '/admin/videosReview',
+      name: 'videosReview',
+      component: () => import('@/admin-pages/VideosReview.vue')
+    },
+    {
+      path: '/admin/user',
+      name: 'user',
+      component: () => import('@/admin-pages/UserPage.vue')
     }
   ]
 })
