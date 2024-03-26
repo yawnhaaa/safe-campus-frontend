@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
+
 interface User {
   date: string;
   name: string;
@@ -10,7 +11,7 @@ export default defineComponent ({
   name: "UserPage",
 
   setup() {
-    const multipleSelection = ref<User[]>([])
+    const itemsSelected= ref<User[]>([])
     const tableData = [
       {
         date: '2016-05-03',
@@ -39,11 +40,26 @@ export default defineComponent ({
       },
     ]
 
+    const selectNoBan = () => {
+      console.log(itemsSelected.value, "noBan")
+    }
+    const selectBan = () => {
+      console.log(itemsSelected.value, "ban")
+    }
+    const selectDelete = () => {
+      console.log(itemsSelected.value, "delete")
+    }
     const handleSelectionChange = (val: User[]) => {
-      multipleSelection.value = val
-      console.log(multipleSelection.value)
+      itemsSelected.value = val
+      console.log(itemsSelected.value)
     }
     const handleEdit = (index: number, row: User) => {
+      console.log(index, row)
+    }
+    const handleNoBan = (index: number, row: User) => {
+      console.log(index, row)
+    }
+    const handleBan = (index: number, row: User) => {
       console.log(index, row)
     }
     const handleDelete = (index: number, row: User) => {
@@ -53,8 +69,13 @@ export default defineComponent ({
     return {
       tableData,
 
+      selectNoBan,
+      selectBan,
+      selectDelete,
       handleSelectionChange,
       handleEdit,
+      handleNoBan,
+      handleBan,
       handleDelete,
     }
   }
@@ -63,6 +84,20 @@ export default defineComponent ({
 
 <template>
   <div class="contain">
+    <div class="header-button">
+      <el-button
+        type="warning"
+        @click="selectNoBan"
+      >批量启用</el-button>
+      <el-button
+        type="warning"
+        @click="selectBan"
+      >批量禁用</el-button>
+      <el-button
+        type="danger"
+        @click="selectDelete"
+      >批量删除</el-button>
+    </div>
     <el-table 
       :data="tableData" 
       border 
@@ -81,13 +116,23 @@ export default defineComponent ({
             size="small" 
             @click="handleEdit(scope.$index, scope.row)"
           >
-            Edit
+            修改密码
           </el-button>
+          <el-button
+            size="small"
+            type="primary"
+            @click="handleNoBan(scope.$index, scope.row)"
+          >启用</el-button>
+          <el-button
+            size="small"
+            type="warning"
+            @click="handleBan(scope.$index, scope.row)"
+          >禁用</el-button>
           <el-button
             size="small"
             type="danger"
             @click="handleDelete(scope.$index, scope.row)"
-          >Delete</el-button>
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -96,6 +141,12 @@ export default defineComponent ({
 
 <style lang="scss" scoped>
 .contain {
-  height: 100%
+  height: 100%;
+
+  .header-button {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+    }
 }
 </style>
