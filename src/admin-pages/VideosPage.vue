@@ -18,7 +18,7 @@ interface Material {
 }
 
 export default defineComponent({
-  name: "ImagesPage",
+  name: "VideosPage",
 
   setup() {
     const itemsSelected = ref<Material[]>([])
