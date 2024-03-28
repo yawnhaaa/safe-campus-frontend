@@ -197,7 +197,7 @@ export default defineComponent({
 <template>
   <div class="contain">
     <div class="header-button">
-      <el-button type="warning" @click="selectNoBan">批量启用</el-button>
+      <el-button type="primary" @click="selectNoBan">批量启用</el-button>
       <el-button type="warning" @click="selectBan">批量限流</el-button>
       <el-button type="danger" @click="selectDelete">批量删除</el-button>
     </div>
