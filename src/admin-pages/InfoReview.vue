@@ -172,8 +172,6 @@ export default defineComponent({
           {{ formatTime(row.infoDate) }}
         </template>
       </el-table-column>
-      <el-table-column prop="infoLike" label="点赞数量"/>
-      <el-table-column prop="infoCollect" label="点赞数量"/>
       <el-table-column label="状态">
         <template #default="{ row }">
           <span v-if="row.isDelete === 2">待审核</span>
