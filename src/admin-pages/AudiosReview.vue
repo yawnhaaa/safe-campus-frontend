@@ -116,7 +116,7 @@ export default defineComponent({
     }
 
     const getMaterialReviewList = () => {
-      request.get("/admin/getVideoReviewList").then((res) => {
+      request.get("/admin/getAudioReviewList").then((res) => {
         materialList.value = res.data.data
       })
     }
