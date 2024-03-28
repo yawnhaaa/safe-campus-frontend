@@ -149,11 +149,12 @@ export default defineComponent({
         }
       })
     }
+
+    // todo: 资讯详情未做
     const handleInfoDetail = (row: Info) => {
       console.log("查看详情", row)
     }
 
-    // todo: 资讯详情未做
     const getInfoList = () => {
       request.get("/admin/getInfoList").then((res) => {
         infoList.value = res.data.data
