@@ -1,12 +1,12 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import {defineComponent} from 'vue'
 
 export default defineComponent({
-    name: "VisualPage",
+  name: "VisualPage",
 })
 
 </script>
 
 <template>
-    <h1>Visual Page</h1>
+  <h1>Visual Page</h1>
 </template>

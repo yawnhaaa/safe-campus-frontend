@@ -104,7 +104,8 @@ export default defineComponent({
       <div class="material-header">
         <h1 class="material-title">{{ material.title }}</h1>
         <el-button @click="download" class="material-button" type="primary">下载素材</el-button>
-        <span v-if="material.download" style="padding-left: 20px; color: rgb(128,128,128);">下载次数：{{ material.download }}</span>
+        <span v-if="material.download"
+              style="padding-left: 20px; color: rgb(128,128,128);">下载次数：{{ material.download }}</span>
       </div>
       <div class="material-main">
         <span class="material-author">{{ material.author }}</span>

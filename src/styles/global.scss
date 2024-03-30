@@ -1,40 +1,47 @@
 @font-face {
-    font-family: 'LiuJianMaoCao';
-    src: url('../assets/fonts/LiuJianMaoCao-Regular.ttf') format('truetype');
+  font-family: 'LiuJianMaoCao';
+  src: url('../assets/fonts/LiuJianMaoCao-Regular.ttf') format('truetype');
 }
+
 @font-face {
-    font-family: 'LongCang';
-    src: url('../assets/fonts/LongCang-Regular.ttf') format('truetype');
+  font-family: 'LongCang';
+  src: url('../assets/fonts/LongCang-Regular.ttf') format('truetype');
 }
+
 @font-face {
-    font-family: 'MaShanZheng';
-    src: url('../assets/fonts/MaShanZheng-Regular.ttf') format('truetype');
+  font-family: 'MaShanZheng';
+  src: url('../assets/fonts/MaShanZheng-Regular.ttf') format('truetype');
 }
+
 @font-face {
-    font-family: 'NotoSans';
-    src: url('../assets/fonts/NotoSansSC-VariableFont_wght.ttf') format('truetype');
+  font-family: 'NotoSans';
+  src: url('../assets/fonts/NotoSansSC-VariableFont_wght.ttf') format('truetype');
 }
+
 @font-face {
-    font-family: 'NotoSerif';
-    src: url('../assets/fonts/NotoSerifSC-Regular.otf') format('opentype');
+  font-family: 'NotoSerif';
+  src: url('../assets/fonts/NotoSerifSC-Regular.otf') format('opentype');
 }
+
 @font-face {
-    font-family: 'ZCOOLQing';
-    src: url('../assets/fonts/ZCOOLQingKeHuangYou-Regular.ttf') format('truetype');
+  font-family: 'ZCOOLQing';
+  src: url('../assets/fonts/ZCOOLQingKeHuangYou-Regular.ttf') format('truetype');
 }
+
 @font-face {
-    font-family: 'ZCOOLXiao';
-    src: url('../assets/fonts/ZCOOLXiaoWei-Regular.ttf') format('truetype');
+  font-family: 'ZCOOLXiao';
+  src: url('../assets/fonts/ZCOOLXiaoWei-Regular.ttf') format('truetype');
 }
+
 @font-face {
-    font-family: 'ZhiMangXing';
-    src: url('../assets/fonts/ZhiMangXing-Regular.ttf') format('truetype');
+  font-family: 'ZhiMangXing';
+  src: url('../assets/fonts/ZhiMangXing-Regular.ttf') format('truetype');
 }
 
 body {
-    font-family: var(--custom-font), sans-serif;
-    height: 100%;
-    margin: 0;
-    padding: 0;
+  font-family: var(--custom-font), sans-serif;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 

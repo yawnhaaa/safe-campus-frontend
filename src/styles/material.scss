@@ -1,21 +1,22 @@
 .material-contain {
-    margin: 0 20px;
+  margin: 0 20px;
 
-    .material-header {
-        display: flex;
-        align-items: center;
+  .material-header {
+    display: flex;
+    align-items: center;
 
-        .material-button {
-            margin-left: 30px;
-        }
-
+    .material-button {
+      margin-left: 30px;
     }
-    .material-main {
-        font-size: 14px;
-        color: gray;
 
-        span {
-            padding-right: 30px;
-        }
+  }
+
+  .material-main {
+    font-size: 14px;
+    color: gray;
+
+    span {
+      padding-right: 30px;
     }
+  }
 }
