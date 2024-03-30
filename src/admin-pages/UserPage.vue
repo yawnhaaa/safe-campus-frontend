@@ -1,7 +1,7 @@
 <script lang="ts">
-import { request } from '@/api/request';
-import { ElMessageBox } from 'element-plus';
-import { defineComponent, onMounted, ref } from 'vue'
+import {request} from '@/api/request';
+import {ElMessageBox} from 'element-plus';
+import {defineComponent, onMounted, ref} from 'vue'
 
 
 interface User {
@@ -210,13 +210,13 @@ export default defineComponent({
       <el-button type="danger" @click="selectDelete">批量删除</el-button>
     </div>
     <el-table :data="userList" border height="666px" style="width: 100%" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" />
-      <el-table-column type="index" label="序号" width="55" />
-      <el-table-column prop="name" label="姓名" />
-      <el-table-column prop="email" label="邮箱" />
-      <el-table-column prop="school" label="学校" />
-      <el-table-column prop="college" label="学院" />
-      <el-table-column prop="stuNum" label="学号" />
+      <el-table-column type="selection" width="55"/>
+      <el-table-column type="index" label="序号" width="55"/>
+      <el-table-column prop="name" label="姓名"/>
+      <el-table-column prop="email" label="邮箱"/>
+      <el-table-column prop="school" label="学校"/>
+      <el-table-column prop="college" label="学院"/>
+      <el-table-column prop="stuNum" label="学号"/>
       <el-table-column label="状态">
         <template #default="{ row }">
           <span v-if="row.isDelete === 0">正常</span>
@@ -237,7 +237,7 @@ export default defineComponent({
     <el-dialog v-model="dialogTableVisible" title="修改用户密码" width="300" align-center center>
       <el-form>
         <el-form-item label="密码">
-          <el-input v-model="passwd" type="password" autocomplete="off" />
+          <el-input v-model="passwd" type="password" autocomplete="off"/>
         </el-form-item>
       </el-form>
       <template #footer>

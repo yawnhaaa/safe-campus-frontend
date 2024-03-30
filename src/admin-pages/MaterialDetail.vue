@@ -209,10 +209,10 @@ export default defineComponent({
             <img :src="resUrl + 'images/' + material.src" alt="" style="max-width: 300px; max-height: 300px;">
           </template>
           <template v-else-if="material.materialType === 1">
-            <video :src="resUrl + 'videos/' + material.src" controls style="max-width: 500px; max-height: 500px;" />
+            <video :src="resUrl + 'videos/' + material.src" controls style="max-width: 500px; max-height: 500px;"/>
           </template>
           <template v-else-if="material.materialType === 2">
-            <audio :src="resUrl + 'audios/' + material.src" controls />
+            <audio :src="resUrl + 'audios/' + material.src" controls/>
           </template>
         </el-form-item>
         <el-form-item label="展示图片" v-if="material.imgSrc">

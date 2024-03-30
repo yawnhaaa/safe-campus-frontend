@@ -152,7 +152,7 @@ export default defineComponent({
     }
 
     const handleMaterialDetail = (row: Material) => {
-      router.push({ path: `/admin/material/${row.id}` });
+      router.push({path: `/admin/material/${row.id}`});
     }
 
     const getMaterialList = () => {

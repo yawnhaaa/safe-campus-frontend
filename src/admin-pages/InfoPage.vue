@@ -34,21 +34,21 @@ export default defineComponent({
       }
       const idList: number[] = [];
       itemsSelected.value.forEach((item) => {
-          idList.push(item.id);
+        idList.push(item.id);
       });
       const paramsString = idList.map(id => `idList=${id}`).join('&');
       request.get(`/admin/noBanInfoList?${paramsString}`).then((res) => {
-          if (res.data.code === 200) {
-              ElMessageBox.alert(res.data.data, "注意", {
-                  confirmButtonText: "好的"
-              }).then(() => {
-                  getInfoList()
-              })
-          } else {
-              ElMessageBox.alert(res.data.msg, "注意", {
-                  confirmButtonText: "好的"
-              })
-          }
+        if (res.data.code === 200) {
+          ElMessageBox.alert(res.data.data, "注意", {
+            confirmButtonText: "好的"
+          }).then(() => {
+            getInfoList()
+          })
+        } else {
+          ElMessageBox.alert(res.data.msg, "注意", {
+            confirmButtonText: "好的"
+          })
+        }
       })
     }
     const selectBan = () => {
@@ -152,7 +152,7 @@ export default defineComponent({
     }
 
     const handleInfoDetail = (row: Info) => {
-      router.push({ path: `/admin/info/${row.id}` });
+      router.push({path: `/admin/info/${row.id}`});
     }
 
     const getInfoList = () => {
