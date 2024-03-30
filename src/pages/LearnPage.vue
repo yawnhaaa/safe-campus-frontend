@@ -1,8 +1,8 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
+import {defineComponent, onMounted, ref} from 'vue';
 import '../styles/page.scss'
-import { useDark } from '@vueuse/core'
-import { request } from '@/api/request';
+import {useDark} from '@vueuse/core'
+import {request} from '@/api/request';
 
 export default defineComponent({
   name: 'LearnPage',
@@ -76,12 +76,9 @@ export default defineComponent({
     const getQuestionList = () => {
       request.get("/getQuestionList").then((res) => {
         if (res.data.code === 200) {
-          const questionListData: TopicType[] = res.data.data;
-          topicList.value = questionListData;
+          topicList.value = res.data.data;
         }
-      }).catch((error) => {
-          console.error("Error fetching question list:", error);
-        });
+      })
     }
 
     onMounted(() => {

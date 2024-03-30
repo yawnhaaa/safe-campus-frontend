@@ -60,9 +60,6 @@ export default defineComponent({
                 }).then(() => {
                     increaseDownloadNum()
                 })
-                .catch(error => {
-                    console.error('Error downloading file: ', error);
-                });
         }
 
         onMounted(() => {

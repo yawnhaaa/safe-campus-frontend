@@ -57,9 +57,6 @@ export default defineComponent({
           material.materialType = materialDetail.materialType;
           material.download = materialDetail.download;
           material.isDelete = materialDetail.isDelete;
-          console.log(materialDetail)
-          console.log(material.src)
-          console.log(material.imgSrc)
         } else {
           ElMessageBox.alert("网络错误", "注意", {
             confirmButtonText: "好的"
@@ -212,11 +209,9 @@ export default defineComponent({
             <img :src="resUrl + 'images/' + material.src" alt="" style="max-width: 300px; max-height: 300px;">
           </template>
           <template v-else-if="material.materialType === 1">
-            <!-- 插入视频标签，待替换为实际视频地址 -->
             <video :src="resUrl + 'videos/' + material.src" controls style="max-width: 500px; max-height: 500px;" />
           </template>
           <template v-else-if="material.materialType === 2">
-            <!-- 插入音频标签，待替换为实际音频地址 -->
             <audio :src="resUrl + 'audios/' + material.src" controls />
           </template>
         </el-form-item>

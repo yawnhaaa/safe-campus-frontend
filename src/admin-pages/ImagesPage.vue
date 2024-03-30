@@ -211,7 +211,7 @@ export default defineComponent({
       </el-table-column>
       <el-table-column prop="imgSrc" label="展示图片">
         <template #default="{ row }">
-          <span v-if="row.imgSrc">{{ row.imgSrc }}</span>
+          <span v-if="row.imgSrc">展示图片见详情</span>
           <span v-else>无</span>
         </template>
       </el-table-column>
