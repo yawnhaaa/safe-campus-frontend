@@ -2,6 +2,7 @@
 import {request} from '@/api/request';
 import {ElMessageBox} from 'element-plus';
 import {defineComponent, onMounted, ref} from 'vue'
+import router from "@/router";
 
 
 interface Info {
@@ -110,9 +111,8 @@ export default defineComponent({
       })
     }
 
-    // todo: 资讯详情未做
     const handleInfoDetail = (row: Info) => {
-      console.log("查看详情", row)
+      router.push({ path: `/admin/info/${row.id}` });
     }
 
     const getInfoReviewList = () => {
@@ -175,6 +175,8 @@ export default defineComponent({
       <el-table-column label="状态">
         <template #default="{ row }">
           <span v-if="row.isDelete === 2">待审核</span>
+          <span v-else-if="row.isDelete === 3">已驳回</span>
+          <span v-else>网络错误</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="210">

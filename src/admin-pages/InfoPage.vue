@@ -2,6 +2,7 @@
 import {request} from '@/api/request';
 import {ElMessageBox} from 'element-plus';
 import {defineComponent, onMounted, ref} from 'vue'
+import router from "@/router";
 
 
 interface Info {
@@ -150,9 +151,8 @@ export default defineComponent({
       })
     }
 
-    // todo: 资讯详情未做
     const handleInfoDetail = (row: Info) => {
-      console.log("查看详情", row)
+      router.push({ path: `/admin/info/${row.id}` });
     }
 
     const getInfoList = () => {

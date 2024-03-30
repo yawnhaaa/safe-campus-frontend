@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '@/pages/HomePage.vue';
 import AdminPage from '@/admin-pages/AdminPage.vue'
-import { getToken } from '@/utils/auth';
 import { verifyUser } from '@/api/request';
 
 const router = createRouter({
@@ -123,7 +122,17 @@ const router = createRouter({
       path: '/admin/user',
       name: 'user',
       component: () => import('@/admin-pages/UserPage.vue')
-    }
+    },
+    {
+      path: '/admin/info/:id',
+      name: 'adminInfoDetail',
+      component: () => import('@/admin-pages/InfoDetail.vue')
+    },
+    {
+      path: '/admin/material/:id',
+      name: 'adminMaterialDetail',
+      component: () => import('@/admin-pages/MaterialDetail.vue')
+    },
   ]
 })
 

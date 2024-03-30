@@ -140,7 +140,6 @@ export default defineComponent({
           ElMessageBox.alert(res.data.data, "注意", {
             confirmButtonText: "好的"
           }).then(() => {
-            console.log(666)
             getMaterialList()
           })
         } else {
