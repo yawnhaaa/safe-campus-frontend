@@ -22,6 +22,7 @@ export default defineComponent({
   name: "InfoDetail",
 
   setup() {
+    const resUrl = "http://127.0.0.1:8080/api/resource/imgSrc/"
     const router = useRouter();
     // 获取动态路由中的id参数
     const infoId = router.currentRoute.value.params.id;
@@ -56,6 +57,7 @@ export default defineComponent({
           info.infoLike = infoDetail.infoLike;
           info.infoCollect = infoDetail.infoCollect;
           info.isDelete = infoDetail.isDelete;
+          console.log(info.img)
         } else {
           ElMessageBox.alert("网络错误", "注意", {
             confirmButtonText: "好的"
@@ -151,6 +153,7 @@ export default defineComponent({
     })
     return {
       info,
+      resUrl,
 
       goBack,
       handleNoBan,
@@ -202,6 +205,9 @@ export default defineComponent({
               autosize
               type="textarea"
           />
+        </el-form-item>
+        <el-form-item label="展示图片" v-if="info.img">
+          <img :src="resUrl + info.img" alt="" style="max-width: 100px; max-height: 100px;">
         </el-form-item>
         <template v-if="info.isDelete !== 2 && info.isDelete !== 3">
           <el-form-item label="点赞数">

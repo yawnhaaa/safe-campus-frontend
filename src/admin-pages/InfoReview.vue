@@ -166,6 +166,12 @@ export default defineComponent({
           <span>更多内容见详情</span>
         </template>
       </el-table-column>
+      <el-table-column prop="img" label="展示图片">
+        <template #default="{ row }">
+          <span v-if="row.img">展示图片见详情</span>
+          <span v-else>无</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="author" label="作者"/>
       <el-table-column prop="infoDate" label="发布日期">
         <template #default="{ row }">
