@@ -37,7 +37,6 @@ export default defineComponent({
         <span class="text-author">{{ item.author }}</span>
         <span class="text-date">{{ item.infoDate }}</span>
         <span class="text-like" v-show="item.infoLike">喜欢：{{ item.infoLike }}</span>
-        <span class="text-like" v-show="item.infoLike">{{ item.img }}</span>
       </div>
     </div>
     <div class="info-img">
