@@ -2,6 +2,7 @@
 import {request} from '@/api/request';
 import {ElMessageBox} from 'element-plus';
 import {defineComponent, onMounted, ref} from 'vue'
+import router from "@/router";
 
 
 interface Material {
@@ -150,9 +151,8 @@ export default defineComponent({
       })
     }
 
-    // todo: 素材详情未做
     const handleMaterialDetail = (row: Material) => {
-      console.log("查看详情", row)
+      router.push({ path: `/admin/material/${row.id}` });
     }
 
     const getMaterialList = () => {
