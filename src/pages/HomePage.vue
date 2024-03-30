@@ -2,7 +2,7 @@
 import { defineComponent, onMounted, ref } from 'vue';
 import InfoItem from '../components/InfoItem.vue'
 import '../styles/page.scss'
-import type { InfoType } from '../types/type'
+import type { InfoType } from '@/types/type'
 import { request } from '@/api/request';
 
 export default defineComponent({
