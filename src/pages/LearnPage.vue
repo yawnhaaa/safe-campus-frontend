@@ -16,7 +16,7 @@ export default defineComponent({
     }
     type TopicType = {
       id: string;
-      type: string;
+      type: number;
       title: string;
       analysis: string;
       isSubmit: boolean;
@@ -26,7 +26,7 @@ export default defineComponent({
     const topicList = ref<TopicType[]>([])
 
     const isDark = useDark();
-    const checkItem = (topicItem:TopicType, item: ContentType) => {
+    const checkItem = (topicItem: TopicType, item: ContentType) => {
       if (topicItem.type === 0) {
         topicItem.questionContentEntityList.forEach((content) => {
           content.isChecked = false
@@ -88,14 +88,15 @@ export default defineComponent({
     return {
       isDark,
       topicList,
+      topicIndex,
+      analysisButton,
+      analysisVisible,
+
       checkItem,
       dynamicStyles,
-      topicIndex,
       previousTopic,
       nextTopic,
       submitTopic,
-      analysisButton,
-      analysisVisible,
       handleAnalysis,
     }
 
@@ -108,16 +109,16 @@ export default defineComponent({
     <h1>激情答题区</h1>
     <div class="answer-contain">
       <div v-if="topicList.length > 0" class="answer-area"
-        :style="{ background: isDark ? '#333333' : '#ECECEC' }">
+           :style="{ background: isDark ? '#333333' : '#ECECEC' }">
         <div class="answer-topic">
           <span style="color: orange;">{{ topicList[topicIndex].type === 0 ? '单选' : '多选' }}</span>
           <span>题目：{{ topicList[topicIndex].title }}</span>
         </div>
         <div class="answer-content">
-          <div class="answer-item" v-for="item in topicList[topicIndex].questionContentEntityList" 
-            :key="item.id"
-            :style="dynamicStyles(item)"
-            @click="checkItem(topicList[topicIndex] ,item)"
+          <div class="answer-item" v-for="item in topicList[topicIndex].questionContentEntityList"
+               :key="item.id"
+               :style="dynamicStyles(item)"
+               @click="checkItem(topicList[topicIndex] ,item)"
           >
             {{ item.content }}
           </div>
@@ -131,9 +132,9 @@ export default defineComponent({
         <el-button :disabled="topicIndex === topicList.length - 1" @click="nextTopic">下一题</el-button>
         <el-button @click="submitTopic">提交</el-button>
       </div>
-      <div class="analysis-area" :style="{ background: isDark ? '#333333' : '#ECECEC' }">
-        <p @click="handleAnalysis" v-if="analysisButton">点击展示解析</p>
-        <p v-show="analysisVisible">hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh</p>
+      <div @click="handleAnalysis" class="analysis-area" :style="{ background: isDark ? '#333333' : '#ECECEC' }">
+        <p v-if="analysisButton">点击展示解析</p>
+        <p v-show="analysisVisible">{{ topicList[topicIndex]?.analysis }}</p>
       </div>
     </div>
   </div>
@@ -198,6 +199,10 @@ h1 {
     p {
       word-wrap: break-word;
       width: 90%;
+    }
+
+    &:hover {
+      cursor: pointer;
     }
   }
 }
