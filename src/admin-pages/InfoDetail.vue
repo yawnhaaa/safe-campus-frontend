@@ -57,7 +57,6 @@ export default defineComponent({
           info.infoLike = infoDetail.infoLike;
           info.infoCollect = infoDetail.infoCollect;
           info.isDelete = infoDetail.isDelete;
-          console.log(info.img)
         } else {
           ElMessageBox.alert("网络错误", "注意", {
             confirmButtonText: "好的"
