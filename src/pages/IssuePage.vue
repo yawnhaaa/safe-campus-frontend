@@ -17,7 +17,7 @@ export default defineComponent({
       authorId: number;
       content: string;
     }
-    type MateriaFormType = {
+    type MaterialFormType = {
       title: string;
       author: string;
       authorId: number;
@@ -118,15 +118,15 @@ export default defineComponent({
     }
 
     // 素材表单
-    const materiaFormRef = ref<FormInstance>()
-    const materiaForm = reactive<MateriaFormType>({
+    const materialFormRef = ref<FormInstance>()
+    const materialForm = reactive<MaterialFormType>({
       title: '',
       author: '',
       authorId: 0,
       radio: null,
       file: null
     })
-    const materiaFormRules = reactive<FormRules<MateriaFormType>>({
+    const materialFormRules = reactive<FormRules<MaterialFormType>>({
       title: [
         {required: true, message: '请输入标题', trigger: 'blur'},
       ],
@@ -148,18 +148,18 @@ export default defineComponent({
       materialImgFile.value = uploadFile.raw
     }
     const uploadMaterial = (uploadFile: any) => {
-      materiaForm.file = uploadFile.raw
+      materialForm.file = uploadFile.raw
     }
     const initMaterialForm = () => {
-      materiaForm.author = '',
-          materiaForm.authorId = 0,
-          materiaForm.title = '',
-          materiaForm.radio = null,
-          materiaForm.file = null,
-          materialImgFile.value = null,
-          materialFileClear()
+      materialForm.author = ''
+      materialForm.authorId = 0
+      materialForm.title = ''
+      materialForm.radio = null
+      materialForm.file = null
+      materialImgFile.value = null
+      materialFileClear()
     }
-    const handleMateriaIssue = async (formEl: FormInstance | undefined) => {
+    const handleMaterialIssue = async (formEl: FormInstance | undefined) => {
       if (!formEl) return
       await formEl.validate((valid, fields) => {
         if (!valid) {
@@ -180,13 +180,13 @@ export default defineComponent({
         const author = localStorage.getItem("user") || ''
         const authorId = Number(localStorage.getItem("userId")) || 0
         const formData = new FormData()
-        formData.append("title", materiaForm.title)
-        formData.append("materialType", materiaForm.radio)
+        formData.append("title", materialForm.title)
+        formData.append("materialType", materialForm.radio)
         formData.append("author", author)
         formData.append("authorId", authorId)
         // 如果没有文件，则不向formData添加
-        if (materiaForm.file !== null) {
-          formData.append("file", materiaForm.file)
+        if (materialForm.file !== null) {
+          formData.append("file", materialForm.file)
         }
         // 如果没有文件，则不向formData添加
         if (materialImgFile.value !== null) {
@@ -218,7 +218,7 @@ export default defineComponent({
 
     const acceptFileType = ref('')
 
-    watch(() => materiaForm.radio, (newValue) => {
+    watch(() => materialForm.radio, (newValue) => {
       switch (newValue) {
         case 0:
           acceptFileType.value = 'image/*';
@@ -247,10 +247,10 @@ export default defineComponent({
       infoForm,
       infoFormRules,
       handleInfoIssue,
-      materiaFormRef,
-      materiaForm,
-      materiaFormRules,
-      handleMateriaIssue,
+      materialFormRef,
+      materialForm,
+      materialFormRules,
+      handleMaterialIssue,
       uploadMaterialImage,
       materialImgUpload,
       materialFile,
@@ -284,19 +284,19 @@ export default defineComponent({
       </el-form>
     </template>
     <template v-else>
-      <el-form ref="materiaFormRef" :model="materiaForm" :rules="materiaFormRules" class="form">
+      <el-form ref="materialFormRef" :model="materialForm" :rules="materialFormRules" class="form">
         <el-form-item label="素材标题" prop="title">
-          <el-input v-model="materiaForm.title" class="input"/>
+          <el-input v-model="materialForm.title" class="input"/>
         </el-form-item>
         <el-form-item label="素材类型" prop="radio">
-          <el-radio-group v-model="materiaForm.radio">
+          <el-radio-group v-model="materialForm.radio">
             <el-radio :value='0'>图像</el-radio>
             <el-radio :value='1'>视频</el-radio>
             <el-radio :value='2'>音频</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="素材文件" prop="file">
-          <el-upload ref="materialFile" v-model="materiaForm.file" :auto-upload="false"
+          <el-upload ref="materialFile" v-model="materialForm.file" :auto-upload="false"
                      :on-change="uploadMaterial" class="upload-demo" :limit="1" :accept="acceptFileType">
             <el-button type="primary">点击上传</el-button>
           </el-upload>
@@ -308,7 +308,7 @@ export default defineComponent({
           </el-upload>
         </el-form-item>
         <el-form-item>
-          <el-button @click="handleMateriaIssue(materiaFormRef)" type="primary" class="button">发布</el-button>
+          <el-button @click="handleMaterialIssue(materialFormRef)" type="primary" class="button">发布</el-button>
         </el-form-item>
       </el-form>
     </template>
