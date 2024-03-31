@@ -154,7 +154,7 @@ h1 {
 
   .answer-area {
     width: calc(100% - 20px);
-    height: 400px;
+    height: 500px;
     margin: 10px;
     border-radius: 5px;
 

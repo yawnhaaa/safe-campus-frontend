@@ -79,7 +79,7 @@ export default defineComponent({
         <RouterLink to="/">首页</RouterLink>
         <RouterLink to="/material">素材</RouterLink>
         <RouterLink to="/learn">学习</RouterLink>
-        <!-- <RouterLink to="/visual">可视化</RouterLink> -->
+         <RouterLink to="/visual">可视化</RouterLink>
         <RouterLink to="/issue">发布</RouterLink>
       </nav>
       <el-switch inline-prompt active-text="黑夜" inactive-text="白天" v-model="isDark"

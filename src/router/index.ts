@@ -21,11 +21,11 @@ const router = createRouter({
             name: 'learn',
             component: () => import('@/pages/LearnPage.vue')
         },
-        // {
-        //   path: '/visual',
-        //   name: 'visual',
-        //   component: () => import('@/pages/VisualPage.vue')
-        // },
+        {
+          path: '/visual',
+          name: 'visual',
+          component: () => import('@/pages/VisualPage.vue')
+        },
         {
             path: '/issue',
             name: 'issue',
