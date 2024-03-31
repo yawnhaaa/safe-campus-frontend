@@ -1,8 +1,13 @@
 .page-contain {
   padding: 5px;
-  border-radius: 5px;
   height: 100%;
   border: 1px solid gray;
+  border-radius: 5px;
+  //border-left: 1px solid gray; /* 左边边框线 */
+  //border-right: 1px solid gray; /* 右边边框线 */
+  //border-top: none; /* 上边无边框线 */
+  //border-bottom: 1px solid gray; /* 下边无边框线 */
+  //margin: auto;
   margin: 10px auto;
   flex-grow: 1;
   width: 60vw;
