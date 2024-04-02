@@ -39,7 +39,7 @@ export const useLogin = async () => {
 export const verifyUser = async (): Promise<boolean> => {
     try {
         const body = {
-            user: localStorage.getItem('user'),
+            stuId: localStorage.getItem('stuId'),
             jwt: getToken()
         }
 

@@ -179,9 +179,9 @@ export default defineComponent({
       </div>
       <div class="child-comment" v-for="(child, index) in item.childList" :Key="index">
         <div class="comment-header">
-          <span>{{ child.commentName }}</span>
-          <span style="color: rgb(128,128,128);">回复</span>
-          <span>{{ child.commentedName }}</span>
+          <span style="color: rgb(128,128,128);">{{ child.commentName }}</span>
+          <span style="color: rgb(128,128,128); font-size: 14px">回复</span>
+          <span style="color: rgb(128,128,128);">{{ child.commentedName }}</span>
         </div>
         <div class="comment-content">{{ child.comment }}</div>
         <div class="comment-footer">

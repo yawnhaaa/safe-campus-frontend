@@ -29,46 +29,54 @@ export default defineComponent({
   setup() {
     const likeList = ref<UserLike[]>([])
     const collectList = ref<UserCollect[]>([])
-    const itemIndex = ref('0');
+    const itemIndex = ref(0);
     const menuItemList = ref(['个人信息', '个性化定制', '喜欢', '收藏'])
     const router = useRouter();
-    const handleIndex = (index: string) => {
+    const handleIndex = (index: number) => {
       itemIndex.value = index;
     }
     type FormType = {
+      id: number;
+      stuId: string;
       name: string;
       email: string;
       intro: string;
       gender: string;
       school: string;
       college: string;
-      stunum: string;
+      stuClass: string;
     }
     const formRef = ref<FormInstance>()
     const form = reactive<FormType>({
+      id: -1,
+      stuId: '',
       name: '',
       email: '',
       intro: '',
       gender: '',
       school: '',
       college: '',
-      stunum: '',
+      stuClass: '',
     })
     const rules = reactive<FormRules<FormType>>({
-      name: [
-        {required: true, message: '请输入昵称', trigger: 'blur'},
-        {min: 2, max: 10, message: '长度在2-8之间', trigger: 'blur'},
+      stuId: [
+        {required: true, message: '请输入学号', trigger: 'blur'},
+        {min: 6, max: 20, message: '长度在6-20之间', trigger: 'blur'},
       ],
       email: [{required: true, message: '邮箱不可更改', trigger: 'blur'}],
+      name: [
+        {required: true, message: '请输入昵称', trigger: 'blur'},
+        {min: 1, max: 10, message: '长度在1-10之间', trigger: 'blur'},
+      ],
     })
     type UpdateFormType = {
-      id: number;  // 根据您的业务逻辑，此处可能是 number 类型，根据需要调整
+      id: number;
       name: string;
       intro: string;
-      gender: string;  // 假设性别为字符串类型
+      gender: string;
       school: string;
       college: string;
-      stuNum: string;
+      stuClass: string;
     }
     const onSave = async (formEl: FormInstance | undefined) => {
       if (!formEl) return
@@ -97,7 +105,7 @@ export default defineComponent({
           gender: form.gender || '',
           school: form.school || '',
           college: form.college || '',
-          stuNum: form.stunum || ''
+          stuClass: form.stuClass || ''
         }
         requestJWT.post("/updateUserDetail", updateForm).then((res) => {
           if (res.data.code === 200) {
@@ -132,7 +140,7 @@ export default defineComponent({
       document.documentElement.style.setProperty('--custom-font', individualForm.font)
     }
     // 主题颜色
-    const setTheme = useElementPlusTheme(individualForm.theme || localStorage.getItem('selectedTheme')).changeTheme;
+    const setTheme = useElementPlusTheme(individualForm.theme || localStorage.getItem('selectedTheme') || '').changeTheme;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     watch(() => individualForm.theme, (newValue, _) => {
       localStorage.setItem('selectedTheme', newValue)
@@ -143,27 +151,29 @@ export default defineComponent({
       requestJWT.get("/getUserDetail/" + localStorage.getItem("userId")).then((res) => {
         if (res.data.code === 200) {
           const userData = res.data.data
+          form.id = userData.id
+          form.stuId = userData.stuId
           form.name = userData.name
           form.email = userData.email
           form.intro = userData.intro
           form.gender = userData.gender
           form.school = userData.school
           form.college = userData.college
-          form.stunum = userData.stuNum
+          form.stuClass = userData.stuClass
         }
       })
     }
     const getLikeList = () => {
-      request.get("/getLikeList/" + localStorage.getItem("user")).then((res) => {
+      request.get("/getLikeList/" + localStorage.getItem("userId")).then((res) => {
         likeList.value = res.data.data
       })
     }
     const getCollectList = () => {
-      request.get("/getCollectList/" + localStorage.getItem("user")).then((res) => {
+      request.get("/getCollectList/" + localStorage.getItem("userId")).then((res) => {
         collectList.value = res.data.data
       })
     }
-    const handleInfo = (item) => {
+    const handleInfo = (item: any) => {
       const id = item.id
       router.push({name: 'infoDetail', params: {id}})
     }
@@ -200,11 +210,14 @@ export default defineComponent({
     <menu-item :menuItemList="menuItemList" @item-selected="handleIndex"/>
     <template v-if="itemIndex == 0">
       <el-form ref="formRef" :model="form" label-width="auto" :rules="rules" class="form">
-        <el-form-item label="昵称" prop="name">
-          <el-input v-model="form.name" class="input" maxlength="10" clearable disabled/>
+        <el-form-item label="学号" prop="stuId">
+          <el-input v-model="form.stuId" class="input" maxlength="20" clearable disabled/>
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
           <el-input v-model="form.email" class="input" disabled/>
+        </el-form-item>
+        <el-form-item label="昵称" prop="name">
+          <el-input v-model="form.name" class="input" maxlength="10" clearable/>
         </el-form-item>
         <el-form-item label="个人介绍" prop="intro">
           <el-input v-model="form.intro" class="input" type="textarea" show-word-limit maxlength="200"
@@ -223,8 +236,8 @@ export default defineComponent({
         <el-form-item label="学院" prop="college">
           <el-input v-model="form.college" class="input" maxlength="20" clearable/>
         </el-form-item>
-        <el-form-item label="学号" prop="stunum">
-          <el-input v-model="form.stunum" class="input" maxlength="20" clearable/>
+        <el-form-item label="班级" prop="stuClass">
+          <el-input v-model="form.stuClass" class="input" maxlength="20" clearable/>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSave(formRef)" class="button">保存</el-button>

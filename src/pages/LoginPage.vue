@@ -18,20 +18,20 @@ export default defineComponent({
       itemIndex.value = index;
     }
     type LoginFormType = {
-      name: string;
+      stuId: string;
       passwd: string;
     }
     const loginFormRef = ref<FormInstance>()
     const loginForm = reactive<LoginFormType>({
-      name: '',
+      stuId: '',
       passwd: '',
     })
     const loginRules = reactive<FormRules<LoginFormType>>({
-      name: [
-        {required: true, message: '请输入登录昵称', trigger: 'blur'},
+      stuId: [
+        {required: true, message: '请输入学号', trigger: 'blur'},
       ],
       passwd: [
-        {required: true, message: '请输入登录密码', trigger: 'blur'},
+        {required: true, message: '请输入密码', trigger: 'blur'},
       ],
     })
     const handleLogin = async (formEl: FormInstance | undefined) => {
@@ -53,9 +53,11 @@ export default defineComponent({
         } else {
           request.post('/login', loginForm).then(({data}) => {
             if (data.code === 200) {
+              console.log(data)
               setToken(data.data.jwt)
-              localStorage.setItem('user', data.data.userName)
+              localStorage.setItem('user', data.data.name)
               localStorage.setItem('userId', data.data.userId)
+              localStorage.setItem('stuId', loginForm.stuId)
               loginSuccess()
             } else {
               ElMessageBox.alert(data.msg, '注意', {
@@ -69,6 +71,7 @@ export default defineComponent({
 
     // register表单
     type RegisterFormType = {
+      stuId: string;
       name: string;
       email: string;
       code: string;
@@ -76,12 +79,17 @@ export default defineComponent({
     }
     const registerFormRef = ref<FormInstance>()
     const registerForm = reactive<RegisterFormType>({
+      stuId: '',
       name: '',
       email: '',
       code: '',
       passwd: '',
     })
     const registerRules = reactive<FormRules<RegisterFormType>>({
+      stuId: [
+        {required: true, message: '请输入昵称', trigger: 'blur'},
+        {min: 6, max: 20, message: '长度在6-20之间', trigger: 'blur'},
+      ],
       name: [
         {required: true, message: '请输入昵称', trigger: 'blur'},
         {min: 2, max: 8, message: '长度在2-8之间', trigger: 'blur'},
@@ -151,10 +159,11 @@ export default defineComponent({
       })
     }
     const initLoginForm = () => {
-      loginForm.name = ''
+      loginForm.stuId = ''
       loginForm.passwd = ''
     }
     const initRegisterForm = () => {
+      registerForm.stuId = ''
       registerForm.name = ''
       registerForm.email = ''
       registerForm.passwd = ''
@@ -173,13 +182,14 @@ export default defineComponent({
     return {
       itemIndex,
       menuItemList,
-      handleIndex,
       loginFormRef,
       loginForm,
       loginRules,
       registerFormRef,
       registerForm,
       registerRules,
+
+      handleIndex,
       handleLogin,
       handleSend,
       handleRegister,
@@ -193,8 +203,8 @@ export default defineComponent({
     <menu-item :menuItemList="menuItemList" @item-selected="handleIndex"/>
     <template v-if="itemIndex === '0'">
       <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" class="form">
-        <el-form-item label="昵称" prop="name">
-          <el-input v-model="loginForm.name" class="input"/>
+        <el-form-item label="学号" prop="stuId">
+          <el-input v-model="loginForm.stuId" class="input"/>
         </el-form-item>
         <el-form-item label="密码" prop="passwd">
           <el-input type="password" v-model="loginForm.passwd" class="input"/>
@@ -206,6 +216,9 @@ export default defineComponent({
     </template>
     <template v-else>
       <el-form ref="registerFormRef" :model="registerForm" :rules="registerRules" class="form">
+        <el-form-item label="学号" prop="stuId">
+          <el-input v-model="registerForm.stuId" class="input"/>
+        </el-form-item>
         <el-form-item label="昵称" prop="name">
           <el-input v-model="registerForm.name" class="input"/>
         </el-form-item>
