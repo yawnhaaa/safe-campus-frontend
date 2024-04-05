@@ -1,26 +1,24 @@
 # safe-campus-frontend
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
+## 进入项目后，终端执行
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### 项目运行命令
 
 ```sh
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+### 项目打包命令
 
 ```sh
 npm run build
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+### 代码格式检查
 
 ```sh
 npm run lint
