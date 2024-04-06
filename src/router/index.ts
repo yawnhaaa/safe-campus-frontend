@@ -27,6 +27,11 @@ const router = createRouter({
           component: () => import('@/pages/VisualPage.vue')
         },
         {
+            path: '/map',
+            name: 'map',
+            component: () => import('@/pages/OpenLayers.vue')
+        },
+        {
             path: '/issue',
             name: 'issue',
             component: () => import('@/pages/IssuePage.vue')
