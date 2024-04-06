@@ -146,7 +146,6 @@ export default {
           this.detailShow = true
           this.getPoliceById(feature.id)
         } else {
-          console.log("点标记外")
           this.detailShow = false
         }
       });

@@ -53,7 +53,6 @@ export default defineComponent({
         } else {
           request.post('/login', loginForm).then(({data}) => {
             if (data.code === 200) {
-              console.log(data)
               setToken(data.data.jwt)
               localStorage.setItem('user', data.data.name)
               localStorage.setItem('userId', data.data.userId)
