@@ -542,7 +542,7 @@ export default defineComponent({
           <el-input
               v-model="title"
               autocomplete="off"
-              maxlength="20"
+              maxlength="100"
               show-word-limit
               clearable
           />
