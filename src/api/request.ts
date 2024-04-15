@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {getToken} from '@/utils/auth'
 import router from '@/router/index'
-import {ElMessageBox} from 'element-plus'
+import {ElMessage} from 'element-plus'
 
 export const url = 'http://127.0.0.1:8080/api'
 
@@ -9,88 +9,46 @@ export const request = axios.create({
     baseURL: url
 })
 
-export const requestJWT = axios.create({
-    baseURL: url
-})
+request.interceptors.request.use(
+    (config) => {
+        const token = getToken(); // 或者从其他地方获取JWT
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
 
-// 跳转登录页方法
-const redirectLogin = () => {
+// 跳转用户登录页方法
+export const redirectLogin = () => {
+    ElMessage.error('此操作需要登录，重定向至登录页')
     localStorage.setItem('oldPath', window.location.pathname)
-    router.push('/login')
+    router.push('/login').then(() => {
+    })
+}
+// 跳转管理员登录页方法
+export const redirectAdminLogin = () => {
+    ElMessage.error('此操作需要登录，重定向至登录页')
+    router.push('/login').then(() => {
+    })
 }
 // 登录成功跳回原登录页面方法
 export const loginSuccess = () => {
     const redirectPath = localStorage.getItem('oldPath')
     if (redirectPath) {
-        router.push(redirectPath)
+        router.push(redirectPath).then(() => {
+        })
     } else {
-        router.push('/')
+        router.push('/').then(() => {
+        })
     }
 }
-
-// 检测登录状态
-export const useLogin = async () => {
-    if (await verifyUser()) {
-        router.push('/')
-    }
-}
-
-// 请求后端验证token
-export const verifyUser = async (): Promise<boolean> => {
-    try {
-        const body = {
-            stuId: localStorage.getItem('stuId'),
-            jwt: getToken()
-        }
-
-        const {data} = await request.post('/verifyUser', body)
-        // 假设 data.data 是一个布尔值
-        return data.data
-    } catch (error) {
-        return false // 如果请求失败，则返回 false
-    }
-}
-
-requestJWT.interceptors.request.use(
-    async (config) => {
-        const token = getToken()
-        const status = await verifyUser()
-        if (token && status) {
-            config.headers.Authorization = `Bearer ${token}`
-        } else {
-            await new Promise((resolve, reject) => {
-                ElMessageBox.alert('需要登录', '注意', {
-                    confirmButtonText: '确认',
-                    callback: () => {
-                        redirectLogin()
-                        reject('Need login')
-                    }
-                })
-            })
-        }
-        return config
-    },
-    (error) => {
-        return Promise.reject(error)
-    }
-)
 
 // 管理员登录成功跳转后台
 export const adminLoginSuccess = () => {
-    router.push('/admin')
-}
-// admin验证 Token
-export const verifyAdmin = async (): Promise<boolean> => {
-    try {
-        const body = {
-            user: 'admin',
-            jwt: getToken()
-        }
-
-        const {data} = await request.post('/verifyUser', body)
-        // 假设 data.data 是一个布尔值
-        return data.data
-    } catch (error) {
-        return false // 如果请求失败，则返回 false
-    }
+    router.push('/admin').then(() => {
+    })
 }
