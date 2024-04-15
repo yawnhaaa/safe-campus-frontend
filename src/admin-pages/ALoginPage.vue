@@ -42,7 +42,7 @@ export default defineComponent({
             confirmButtonText: '好的',
           })
         } else {
-          request.post('/admin/aLogin', loginForm).then(({data}) => {
+          request.post('/adminLogin', loginForm).then(({data}) => {
             if (data.code === 200) {
               setToken(data.data)
               localStorage.setItem('user', loginForm.username)
