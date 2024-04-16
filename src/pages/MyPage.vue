@@ -3,7 +3,7 @@ import {defineComponent, ref, reactive, onMounted, watch} from 'vue';
 import MenuItem from '../components/MenuItem.vue';
 import {FormInstance, FormRules, ElMessageBox} from 'element-plus';
 import {useElementPlusTheme} from 'use-element-plus-theme'
-import {request, requestJWT} from '@/api/request';
+import {redirectLogin, request} from '@/api/request';
 import {useRouter} from "vue-router";
 
 
@@ -107,7 +107,7 @@ export default defineComponent({
           college: form.college || '',
           stuClass: form.stuClass || ''
         }
-        requestJWT.post("/updateUserDetail", updateForm).then((res) => {
+        request.post("/protected/updateUserDetail", updateForm).then((res) => {
           if (res.data.code === 200) {
             ElMessageBox.alert(res.data.data, "注意", {
               confirmButtonText: '好的'
@@ -119,9 +119,7 @@ export default defineComponent({
             })
           }
         }).catch(() => {
-          ElMessageBox.alert("网络错误", "注意", {
-            confirmButtonText: '好的'
-          })
+          redirectLogin()
         })
       })
     }
@@ -148,7 +146,7 @@ export default defineComponent({
     })
 
     const getUserDetail = () => {
-      requestJWT.get("/getUserDetail/" + localStorage.getItem("userId")).then((res) => {
+      request.get("/protected/getUserDetail/" + localStorage.getItem("userId")).then((res) => {
         if (res.data.code === 200) {
           const userData = res.data.data
           form.id = userData.id
@@ -161,6 +159,8 @@ export default defineComponent({
           form.college = userData.college
           form.stuClass = userData.stuClass
         }
+      }).catch(() => {
+        redirectLogin()
       })
     }
     const getLikeList = () => {

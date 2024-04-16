@@ -1,6 +1,6 @@
 <script lang="ts">
 import {defineComponent, ref, nextTick, onMounted} from 'vue'
-import {request, requestJWT} from '@/api/request'
+import {redirectLogin, request} from '@/api/request'
 import {ElMessageBox} from 'element-plus';
 
 export default defineComponent({
@@ -23,13 +23,15 @@ export default defineComponent({
           type: 0,
           isStatus: true
         };
-        requestJWT.post('/handleInfo', body).then((res) => {
+        request.post('/protected/handleInfo', body).then((res) => {
           if (res.data.code === -1) {
             ElMessageBox.alert(res.data.msg, '注意', {
               confirmButtonText: '好的',
             })
             return
           }
+        }).catch(() => {
+          redirectLogin()
         })
       }
       isLike.value = true
@@ -44,12 +46,14 @@ export default defineComponent({
           type: 1,
           isStatus: true
         };
-        requestJWT.post('/handleInfo', body).then((res) => {
+        request.post('/protected/handleInfo', body).then((res) => {
           if (res.data.code === -1) {
             ElMessageBox.alert(res.data.msg, '注意', {
               confirmButtonText: '好的',
             })
           }
+        }).catch(() => {
+          redirectLogin()
         })
 
         isCollect.value = true

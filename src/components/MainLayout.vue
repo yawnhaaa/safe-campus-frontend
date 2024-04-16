@@ -5,7 +5,8 @@ import {useDark} from '@vueuse/core'
 import {Search} from '@element-plus/icons-vue'
 import {useElementPlusTheme} from 'use-element-plus-theme'
 import '../styles/page.scss'
-import {verifyUser} from '@/api/request'
+import {verifyUser} from "@/api/request";
+import {removeToken} from "@/utils/auth";
 
 export default defineComponent({
   name: "MainLayout",
@@ -22,6 +23,8 @@ export default defineComponent({
     const isLogin = ref(false)
     const userName = ref('')
     const logout = () => {
+      removeToken()
+      isLogin.value = false
       localStorage.removeItem('user')
       localStorage.removeItem('oldPath')
       location.reload()

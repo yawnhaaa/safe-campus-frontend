@@ -52,3 +52,12 @@ export const adminLoginSuccess = () => {
     router.push('/admin').then(() => {
     })
 }
+
+export const verifyUser = async (): Promise<Boolean> => {
+    try {
+        const {data} = await request.get('/protected/verifyUser')
+        return data.data === '200';
+    } catch (error) {
+        return false
+    }
+}

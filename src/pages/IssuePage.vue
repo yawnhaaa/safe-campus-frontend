@@ -3,7 +3,7 @@ import {defineComponent, reactive, ref, watch} from 'vue'
 import '../styles/page.scss'
 import MenuItem from '../components/MenuItem.vue'
 import {ElMessageBox, FormInstance, FormRules} from 'element-plus'
-import {requestJWT} from '@/api/request'
+import {redirectLogin, request} from '@/api/request'
 
 export default defineComponent({
   name: "IssuePage",
@@ -93,7 +93,7 @@ export default defineComponent({
         if (infoFile.value !== null) {
           formData.append("file", infoFile.value)
         }
-        requestJWT.post("/issueInfo", formData).then((res) => {
+        request.post("/protected/issueInfo", formData).then((res) => {
           if (res.data.code === 200) {
             ElMessageBox.alert(res.data.data, '注意', {
               confirmButtonText: '好的',
@@ -108,11 +108,7 @@ export default defineComponent({
             })
           }
         }).catch(() => {
-          ElMessageBox.alert("文件过大", '注意', {
-            confirmButtonText: '好的',
-          }).then(() => {
-            initInfoForm()
-          })
+            redirectLogin()
         })
       })
     }
@@ -192,7 +188,7 @@ export default defineComponent({
         if (materialImgFile.value !== null) {
           formData.append("imgFile", materialImgFile.value)
         }
-        requestJWT.post("/issueMaterial", formData).then((res) => {
+        request.post("/protected/issueMaterial", formData).then((res) => {
           if (res.data.code === 200) {
             ElMessageBox.alert(res.data.data, '注意', {
               confirmButtonText: '好的',
@@ -207,11 +203,7 @@ export default defineComponent({
             })
           }
         }).catch(() => {
-          ElMessageBox.alert("文件过大", '注意', {
-            confirmButtonText: '好的',
-          }).then(() => {
-            initMaterialForm()
-          })
+            redirectLogin()
         })
       })
     }

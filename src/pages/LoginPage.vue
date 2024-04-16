@@ -4,6 +4,7 @@ import {ElMessageBox, FormInstance, FormRules} from 'element-plus';
 import MenuItem from '../components/MenuItem.vue'
 import {loginSuccess, request, verifyUser} from '@/api/request';
 import {setToken} from '@/utils/auth';
+import router from "@/router";
 
 export default defineComponent({
   name: 'LoginPage',
@@ -169,8 +170,9 @@ export default defineComponent({
       registerForm.code = ''
     }
     onMounted(async () => {
-      if (await verifyUser()) {
-        loginSuccess()
+      if (await verifyUser()){
+        router.push('/').then(() => {
+        })
       }
       initLoginForm()
       initRegisterForm()

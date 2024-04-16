@@ -1,6 +1,6 @@
 <script lang="ts">
 import {defineComponent, onMounted, reactive, ref} from 'vue'
-import {request, requestJWT} from '@/api/request'
+import {redirectLogin, request} from '@/api/request'
 import {ElMessageBox} from 'element-plus'
 
 type CommentType = {
@@ -36,7 +36,7 @@ export default defineComponent({
         commentId: localStorage.getItem("userId"),
         commentName: localStorage.getItem("user"),
       }
-      requestJWT.post("/sendComment", body).then((res) => {
+      request.post("/protected/sendComment", body).then((res) => {
         if (res.data.code === 200) {
           ElMessageBox.alert("评论成功", "注意", {
             confirmButtonText: "好的"
@@ -51,6 +51,8 @@ export default defineComponent({
           })
           return
         }
+      }).catch(() => {
+        redirectLogin()
       })
     }
 
@@ -121,7 +123,7 @@ export default defineComponent({
         commentedName: commented.commentedName,
         topId: commented.topId
       }
-      requestJWT.post("/sendComment", body).then((res) => {
+      request.post("/protected/sendComment", body).then((res) => {
         if (res.data.code === 200) {
           ElMessageBox.alert("评论成功", "注意", {
             confirmButtonText: "好的"
@@ -139,6 +141,8 @@ export default defineComponent({
           })
           return
         }
+      }).catch(() => {
+        redirectLogin()
       })
     }
 
