@@ -187,7 +187,6 @@ export default defineComponent({
       materialList,
 
       formatTime,
-
       selectNoBan,
       selectBan,
       selectDelete,

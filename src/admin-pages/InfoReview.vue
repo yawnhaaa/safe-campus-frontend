@@ -145,7 +145,6 @@ export default defineComponent({
       infoList,
 
       formatTime,
-
       selectPass,
       selectNoPass,
       handleSelectionChange,

@@ -183,6 +183,7 @@ export default defineComponent({
 
     const getUserList = () => {
       request.get("/admin/getUserList").then((res) => {
+        console.log(res)
         userList.value = res.data.data
       }).catch(() => {
         redirectAdminLogin()
@@ -222,11 +223,12 @@ export default defineComponent({
     <el-table :data="userList" border height="666px" style="width: 100%" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55"/>
       <el-table-column type="index" label="序号" width="55"/>
+      <el-table-column prop="stuId" label="学号"/>
       <el-table-column prop="name" label="姓名"/>
       <el-table-column prop="email" label="邮箱"/>
       <el-table-column prop="school" label="学校"/>
       <el-table-column prop="college" label="学院"/>
-      <el-table-column prop="stuNum" label="学号"/>
+      <el-table-column prop="stuClass" label="班级"/>
       <el-table-column label="状态">
         <template #default="{ row }">
           <span v-if="row.isDelete === 0">正常</span>

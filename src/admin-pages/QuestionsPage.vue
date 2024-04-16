@@ -481,6 +481,7 @@ export default defineComponent({
       inputDisable2,
       inputDisable3,
       inputDisable4,
+      getTitle,
 
       selectDelete,
       handleSelectionChange,
@@ -498,7 +499,6 @@ export default defineComponent({
       changeCheck3,
       changeCheck4,
       dialogClosed,
-      getTitle,
     }
   }
 })
