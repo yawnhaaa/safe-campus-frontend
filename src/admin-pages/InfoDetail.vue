@@ -1,7 +1,7 @@
 <script lang="ts">
 import {defineComponent, onMounted, reactive} from 'vue'
 import {useRouter} from "vue-router";
-import {request} from "@/api/request";
+import {redirectAdminLogin, request} from "@/api/request";
 import {ElMessageBox} from "element-plus";
 
 
@@ -64,6 +64,8 @@ export default defineComponent({
             goBack()
           })
         }
+      }).catch(() => {
+        redirectAdminLogin()
       })
     }
     const handleNoBan = () => {
@@ -79,6 +81,8 @@ export default defineComponent({
             confirmButtonText: "好的"
           })
         }
+      }).catch(() => {
+        redirectAdminLogin()
       })
     }
     const handleBan = () => {
@@ -94,6 +98,8 @@ export default defineComponent({
             confirmButtonText: "好的"
           })
         }
+      }).catch(() => {
+        redirectAdminLogin()
       })
     }
     const handleDelete = () => {
@@ -109,6 +115,8 @@ export default defineComponent({
             confirmButtonText: "好的"
           })
         }
+      }).catch(() => {
+        redirectAdminLogin()
       })
     }
     const handlePass = () => {
@@ -124,6 +132,8 @@ export default defineComponent({
             confirmButtonText: "好的"
           })
         }
+      }).catch(() => {
+        redirectAdminLogin()
       })
     }
     const handleNoPass = () => {
@@ -139,6 +149,8 @@ export default defineComponent({
             confirmButtonText: "好的"
           })
         }
+      }).catch(() => {
+        redirectAdminLogin()
       })
     }
 

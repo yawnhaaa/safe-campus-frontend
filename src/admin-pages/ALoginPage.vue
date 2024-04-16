@@ -2,7 +2,7 @@
 import {defineComponent, ref, reactive, onMounted} from 'vue'
 import {ElMessageBox, FormInstance, FormRules} from 'element-plus'
 import {adminLoginSuccess, request} from '@/api/request';
-import {setToken} from '@/utils/auth';
+import {removeToken, setToken} from '@/utils/auth';
 
 export default defineComponent({
   name: "ALoginPage",
@@ -45,7 +45,6 @@ export default defineComponent({
           request.post('/adminLogin', loginForm).then(({data}) => {
             if (data.code === 200) {
               setToken(data.data)
-              localStorage.setItem('user', loginForm.username)
               adminLoginSuccess()
             } else {
               ElMessageBox.alert(data.msg, '注意', {
@@ -58,7 +57,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      localStorage.removeItem("userName")
+      removeToken()
     })
 
     return {

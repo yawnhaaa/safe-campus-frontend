@@ -1,5 +1,5 @@
 <script lang="ts">
-import {defineComponent, onMounted, ref} from 'vue'
+import {defineComponent, onMounted} from 'vue'
 import {RouterLink, RouterView} from 'vue-router'
 import {useDark} from '@vueuse/core'
 import {
@@ -10,6 +10,7 @@ import {
 } from '@element-plus/icons-vue'
 import {verifyAdmin} from '@/api/request'
 import router from '@/router/index'
+import {ElMessage} from "element-plus";
 
 export default defineComponent({
   name: "AdminLayout",
@@ -21,28 +22,32 @@ export default defineComponent({
 
   setup() {
     const isDark = useDark()
-    const handleOpen = async (key: string, keyPath: string[]) => {
+    const handleOpen = async () => {
       if (!await verifyAdmin()) {
+        ElMessage.error('此操作需要管理员权限，重定向至登录页')
         router.push('/aLogin')
       }
     }
-    const handleClose = (key: string, keyPath: string[]) => {
+    const handleClose = async () => {
+      if (!await verifyAdmin()) {
+        ElMessage.error('此操作需要管理员权限，重定向至登录页')
+        await router.push('/aLogin')
+      }
     }
 
-    const isAdmin = ref(false)
     const logout = () => {
       localStorage.removeItem('user')
       router.push('/aLogin')
     }
     onMounted(async () => {
-      isAdmin.value = await verifyAdmin()
-      if (!isAdmin.value) {
-        router.push('/aLogin')
+      if (!await verifyAdmin()) {
+        await router.push('/aLogin')
       }
     })
 
     return {
       isDark,
+
       handleOpen,
       handleClose,
       logout,

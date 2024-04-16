@@ -1,5 +1,5 @@
 <script lang="ts">
-import {request} from '@/api/request';
+import {redirectAdminLogin, request} from '@/api/request';
 import {ElMessageBox} from 'element-plus';
 import {defineComponent, onMounted, ref} from 'vue'
 import router from "@/router";
@@ -93,6 +93,8 @@ export default defineComponent({
             confirmButtonText: "好的"
           })
         }
+      }).catch(() => {
+        redirectAdminLogin()
       })
     }
     const handleNoPass = (row: Material) => {
@@ -108,6 +110,8 @@ export default defineComponent({
             confirmButtonText: "好的"
           })
         }
+      }).catch(() => {
+        redirectAdminLogin()
       })
     }
 
@@ -118,6 +122,8 @@ export default defineComponent({
     const getMaterialReviewList = () => {
       request.get("/admin/getAudioReviewList").then((res) => {
         materialList.value = res.data.data
+      }).catch(() => {
+        redirectAdminLogin()
       })
     }
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-import {request} from '@/api/request';
+import {redirectAdminLogin, request} from '@/api/request';
 import {ElMessageBox} from 'element-plus';
 import {defineComponent, onMounted, ref} from 'vue'
 
@@ -125,6 +125,8 @@ export default defineComponent({
             confirmButtonText: "好的"
           })
         }
+      }).catch(() => {
+        redirectAdminLogin()
       })
     }
     const handleNoBan = (row: User) => {
@@ -140,6 +142,8 @@ export default defineComponent({
             confirmButtonText: "好的"
           })
         }
+      }).catch(() => {
+        redirectAdminLogin()
       })
     }
     const handleBan = (row: User) => {
@@ -155,6 +159,8 @@ export default defineComponent({
             confirmButtonText: "好的"
           })
         }
+      }).catch(() => {
+        redirectAdminLogin()
       })
     }
     const handleDelete = (row: User) => {
@@ -170,12 +176,16 @@ export default defineComponent({
             confirmButtonText: "好的"
           })
         }
+      }).catch(() => {
+        redirectAdminLogin()
       })
     }
 
     const getUserList = () => {
       request.get("/admin/getUserList").then((res) => {
         userList.value = res.data.data
+      }).catch(() => {
+        redirectAdminLogin()
       })
     }
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-import {request} from '@/api/request';
+import {redirectAdminLogin, request} from '@/api/request';
 import {ElMessageBox} from 'element-plus';
 import {computed, defineComponent, onMounted, reactive, ref} from 'vue'
 
@@ -170,6 +170,8 @@ export default defineComponent({
             getQuestionList()
           })
         }
+      }).catch(() => {
+        redirectAdminLogin()
       })
     }
     const openUpdate = (row: Question) => {
@@ -296,6 +298,8 @@ export default defineComponent({
             getQuestionList()
           })
         }
+      }).catch(() => {
+        redirectAdminLogin()
       })
     }
     const handleDelete = (row: Info) => {
@@ -311,6 +315,8 @@ export default defineComponent({
             confirmButtonText: "好的"
           })
         }
+      }).catch(() => {
+        redirectAdminLogin()
       })
     }
 
@@ -352,6 +358,8 @@ export default defineComponent({
           // 将初始化好的问题添加到 questionList 中
           questionList.questions.push(initializedQuestion);
         });
+      }).catch(() => {
+        redirectAdminLogin()
       });
     };
 

@@ -31,8 +31,8 @@ export const redirectLogin = () => {
 }
 // 跳转管理员登录页方法
 export const redirectAdminLogin = () => {
-    ElMessage.error('此操作需要登录，重定向至登录页')
-    router.push('/login').then(() => {
+    ElMessage.error('此操作需要管理员权限，重定向至登录页')
+    router.push('/aLogin').then(() => {
     })
 }
 // 登录成功跳回原登录页面方法
@@ -56,6 +56,15 @@ export const adminLoginSuccess = () => {
 export const verifyUser = async (): Promise<Boolean> => {
     try {
         const {data} = await request.get('/protected/verifyUser')
+        return data.data === '200';
+    } catch (error) {
+        return false
+    }
+}
+
+export const verifyAdmin = async (): Promise<Boolean> => {
+    try {
+        const {data} = await request.get('/admin/verifyAdmin')
         return data.data === '200';
     } catch (error) {
         return false
