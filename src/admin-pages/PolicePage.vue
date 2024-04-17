@@ -144,7 +144,7 @@ export default defineComponent({
         })
         return
       }
-      if (isNumeric(body.latitude) || isNumeric(body.longitude)) {
+      if (!isNumeric(body.latitude) || isNumeric(!body.longitude)) {
         ElMessageBox.alert("经纬度必须为数值！", "注意", {
           confirmButtonText: "好的"
         })
@@ -189,7 +189,7 @@ export default defineComponent({
         })
         return
       }
-      if (isNumeric(body.latitude) || isNumeric(body.longitude)) {
+      if (!isNumeric(body.latitude) || !isNumeric(body.longitude)) {
         ElMessageBox.alert("经纬度必须为数值！", "注意", {
           confirmButtonText: "好的"
         })
