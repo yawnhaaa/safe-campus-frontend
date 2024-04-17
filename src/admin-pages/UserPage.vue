@@ -183,7 +183,6 @@ export default defineComponent({
 
     const getUserList = () => {
       request.get("/admin/getUserList").then((res) => {
-        console.log(res)
         userList.value = res.data.data
       }).catch(() => {
         redirectAdminLogin()

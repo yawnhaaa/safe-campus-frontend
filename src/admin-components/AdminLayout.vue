@@ -129,15 +129,17 @@ export default defineComponent({
                 <el-menu-item index="4-1">答题</el-menu-item>
               </router-link>
             </el-sub-menu>
-            <!-- <el-sub-menu index="5">
-                <template #title>
-                    <el-icon>
-                        <location />
-                    </el-icon>
-                    <span>可视化管理</span>
-                </template>
-                <router-link to="/admin/questions"></router-link><el-menu-item index="5-1">可视化数据</el-menu-item>
-            </el-sub-menu> -->
+            <el-sub-menu index="5">
+              <template #title>
+                <el-icon>
+                  <location/>
+                </el-icon>
+                <span>可视化管理</span>
+              </template>
+              <router-link to="/admin/police">
+                <el-menu-item index="5-1">可视化数据</el-menu-item>
+              </router-link>
+            </el-sub-menu>
             <el-sub-menu index="6">
               <template #title>
                 <el-icon>

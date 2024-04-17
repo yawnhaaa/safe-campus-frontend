@@ -124,6 +124,11 @@ const router = createRouter({
             component: () => import('@/admin-pages/VideosReview.vue')
         },
         {
+            path: '/admin/police',
+            name: 'police',
+            component: () => import('@/admin-pages/PolicePage.vue')
+        },
+        {
             path: '/admin/user',
             name: 'user',
             component: () => import('@/admin-pages/UserPage.vue')
