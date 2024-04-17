@@ -83,8 +83,8 @@ export default defineComponent({
         <RouterLink to="/">首页</RouterLink>
         <RouterLink to="/material">素材</RouterLink>
         <RouterLink to="/learn">学习</RouterLink>
-         <RouterLink to="/visual">可视化old</RouterLink>
-         <RouterLink to="/map">可视化</RouterLink>
+         <RouterLink to="/visual">可视化</RouterLink>
+         <RouterLink to="/map">帮助</RouterLink>
         <RouterLink to="/issue">发布</RouterLink>
       </nav>
       <el-switch inline-prompt active-text="黑夜" inactive-text="白天" v-model="isDark"
@@ -102,9 +102,9 @@ export default defineComponent({
     </main>
     <footer>
       <div class="copyright">
-        <span style="margin-right:10px;"><a href="mailto:shuaige@xxx.xx">举报邮箱：shuaige@xxx.xx</a></span>
+        <span style="margin-right:10px;"><a href="mailto:yohoozhao@stu.hznu.edu.cn">举报邮箱：yohoozhao@stu.hznu.edu.cn</a></span>
         <span><a href="tel:0571-xxxxxxxx">座机电话：0571-xxxxxxxx</a></span>
-        <p>Copyright &copy; 大学反诈中心. By 最帅的人. All Rights Reserved</p>
+        <p>Copyright &copy; 杭师大反诈中心. By 阿豪棒棒哒. All Rights Reserved</p>
         <span style="margin-right:10px;"><a href="https://beian.miit.gov.cn/">浙ICP证：2024号xxxxxx号-1 </a></span>
         <span><a href="http://www.beian.gov.cn/">浙公网安备110xxxxxxxxxxx号</a></span>
       </div>
