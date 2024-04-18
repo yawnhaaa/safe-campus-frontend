@@ -34,7 +34,7 @@ export default defineComponent({
     }
 
     onMounted(async () => {
-      if (await verifyUser()) {
+      if (await verifyUser() && localStorage.getItem("userId")) {
         isLogin.value = true
         userName.value = localStorage.getItem('user') || ''
       } else {

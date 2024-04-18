@@ -170,7 +170,7 @@ export default defineComponent({
       registerForm.code = ''
     }
     onMounted(async () => {
-      if (await verifyUser()){
+      if (await verifyUser() && localStorage.removeItem("userId")){
         router.push('/').then(() => {
         })
       }
