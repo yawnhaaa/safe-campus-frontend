@@ -75,8 +75,8 @@ export default defineComponent({
   .material-image {
     width: calc(100% - 10px);
     padding: 5px;
-    max-width: 300px;
-    max-height: 180px;
+    max-width: 500px;
+    max-height: 250px;
   }
 
   .material-info {
