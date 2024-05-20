@@ -1,4 +1,4 @@
-# safe-campus-frontend
+# safe-campus-frontend （安全校园-前端项目）
 
 ## 进入项目后，终端执行
 
